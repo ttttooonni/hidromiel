@@ -1,0 +1,460 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Hidromiel — guía y cuaderno de lotes</title>
+<meta name="description" content="Tutorial paso a paso de hidromiel, recetas guiadas, levaduras, consejos y control de fecha/lote con fotos.">
+<meta name="theme-color" content="#1B140D">
+<link rel="manifest" href="./manifest.json">
+<link rel="icon" href="./icons/icon-192.png">
+<link rel="apple-touch-icon" href="./icons/icon-192.png">
+<style>
+  :root{
+    --bg:#1B140D;
+    --bg-elevated:#241B12;
+    --bg-elevated-2:#2E2114;
+    --honey:#E3A429;
+    --honey-light:#F0BE5A;
+    --honey-dark:#B87D1E;
+    --cream:#F3E9D2;
+    --cream-dim:#C9BCA0;
+    --moss:#6B7A4F;
+    --danger:#C0654A;
+    --line:#3A2B1A;
+    --serif: Georgia, 'Iowan Old Style', 'Palatino Linotype', 'Times New Roman', serif;
+    --sans: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+    --radius: 10px;
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{
+    background:var(--bg);
+    color:var(--cream);
+    font-family:var(--sans);
+    line-height:1.5;
+    padding-bottom:76px;
+    min-height:100vh;
+  }
+  a{color:var(--honey);}
+  .wrap{max-width:680px;margin:0 auto;padding:20px 20px 8px;}
+  h1,h2,h3{font-family:var(--serif);font-weight:600;line-height:1.15;margin:0 0 .4em;}
+  h1{font-size:2.1rem;letter-spacing:.2px;}
+  h2{font-size:1.5rem;color:var(--honey);margin-top:1.6em;}
+  h3{font-size:1.15rem;color:var(--cream);margin-top:1.2em;}
+  p{margin:.5em 0;color:var(--cream-dim);}
+  .lede{color:var(--cream);font-size:1.05rem;}
+  .hero{padding-top:12px;}
+  .drop-icon{
+    width:46px;height:46px;
+    background: radial-gradient(circle at 35% 30%, var(--honey-light), var(--honey-dark));
+    border-radius: 0 60% 60% 60%;
+    transform: rotate(45deg);
+    flex-shrink:0;
+  }
+  .hero .drop-icon{margin-bottom:14px;}
+
+  .rule-list{list-style:none;margin:1.2em 0;padding:0;border-top:1px solid var(--line);}
+  .rule-list li{padding:14px 0;border-bottom:1px solid var(--line);display:flex;gap:14px;align-items:baseline;}
+  .rule-list .n{font-family:var(--serif);color:var(--honey);font-size:1.3rem;min-width:1.4em;}
+  .rule-list .t{color:var(--cream);}
+  .rule-list .t b{color:var(--honey);}
+
+  table{width:100%;border-collapse:collapse;margin:1em 0;font-size:.9rem;}
+  th,td{text-align:left;padding:8px 10px;border-bottom:1px solid var(--line);vertical-align:top;}
+  th{color:var(--honey);font-weight:600;font-family:var(--serif);}
+  td{color:var(--cream-dim);}
+
+  .step{background:var(--bg-elevated);border:1px solid var(--line);border-radius:var(--radius);margin:10px 0;overflow:hidden;}
+  .step > summary{padding:14px 16px;cursor:pointer;list-style:none;display:flex;gap:12px;align-items:baseline;color:var(--cream);font-weight:600;}
+  .step > summary::-webkit-details-marker{display:none;}
+  .step > summary .num{font-family:var(--serif);color:var(--honey);min-width:1.6em;}
+  .step > summary::after{content:'+';margin-left:auto;color:var(--honey);font-size:1.2rem;}
+  .step[open] > summary::after{content:'–';}
+  .step .body{padding:0 16px 16px 16px;}
+  .step .body p{color:var(--cream-dim);}
+
+  .callout{border-left:3px solid var(--honey);background:var(--bg-elevated);padding:12px 14px;border-radius:0 var(--radius) var(--radius) 0;margin:14px 0;}
+  .callout p{color:var(--cream);margin:0;}
+
+  .problem{margin:16px 0;}
+  .problem .sym{color:var(--cream);font-weight:600;}
+  .problem .fix{color:var(--cream-dim);margin-top:2px;}
+
+  .glossary dt{font-family:var(--serif);color:var(--honey);margin-top:.8em;}
+  .glossary dd{color:var(--cream-dim);margin:0 0 .4em;}
+
+  /* --- yeast section --- */
+  .yeast-class{background:var(--bg-elevated);border:1px solid var(--line);border-radius:var(--radius);padding:14px 16px;margin:12px 0;}
+  .yeast-class h3{margin-top:0;display:flex;align-items:center;gap:8px;}
+  .yeast-class .dot{width:8px;height:8px;border-radius:50%;background:var(--honey);flex-shrink:0;}
+  .yeast-class table{margin:8px 0 0;font-size:.85rem;}
+  .yeast-class th,.yeast-class td{padding:6px 8px;}
+
+  /* --- buttons, modernized --- */
+  .btn{
+    background:linear-gradient(160deg, var(--honey-light), var(--honey-dark));
+    color:#1B140D;border:none;
+    border-radius:4px 18px 4px 18px;
+    padding:12px 20px;font-weight:700;font-size:.95rem;cursor:pointer;font-family:var(--sans);
+    box-shadow:0 4px 14px rgba(227,164,41,.28), inset 0 1px 0 rgba(255,255,255,.25);
+    transition:transform .15s ease, box-shadow .15s ease;
+  }
+  .btn:active{transform:scale(.96);box-shadow:0 2px 6px rgba(227,164,41,.22);}
+  .btn.secondary{background:transparent;border:1.5px solid var(--honey);color:var(--honey);box-shadow:none;}
+  .btn.secondary:active{transform:scale(.96);background:rgba(227,164,41,.08);}
+  .btn.danger{background:transparent;border:1.5px solid var(--danger);color:var(--danger);box-shadow:none;}
+  .btn.small{padding:8px 14px;font-size:.82rem;border-radius:4px 14px 4px 14px;}
+  .btn-row{display:flex;gap:10px;flex-wrap:wrap;}
+
+  .icon-btn{
+    width:38px;height:38px;border-radius:50%;
+    background:var(--bg-elevated-2);border:1.5px solid var(--honey);
+    color:var(--honey);display:inline-flex;align-items:center;justify-content:center;
+    cursor:pointer;flex-shrink:0;transition:transform .15s ease, background .15s ease;
+  }
+  .icon-btn:active{transform:scale(.9);background:rgba(227,164,41,.15);}
+  .icon-btn svg{width:18px;height:18px;stroke:currentColor;fill:none;stroke-width:1.8;}
+  .icon-btn.has-photo{border-color:var(--moss);color:var(--moss);}
+
+  /* --- recipes --- */
+  .recipe{background:var(--bg-elevated);border:1px solid var(--line);border-radius:var(--radius);padding:16px;margin:14px 0;}
+  .recipe .top-row{display:flex;justify-content:space-between;align-items:flex-start;gap:10px;}
+  .recipe h3{margin:0 0 2px;}
+  .recipe ul{margin:.5em 0;padding-left:1.2em;color:var(--cream-dim);}
+  .recipe .tag{display:inline-block;font-family:var(--serif);color:var(--honey);font-size:.85rem;margin-bottom:4px;}
+  .recipe .illus{width:34px;height:34px;flex-shrink:0;opacity:.9;}
+
+  .callout.stockimg{border-left-color:var(--moss);}
+
+  /* --- lotes / process tracker --- */
+  .lote-form{background:var(--bg-elevated);border:1px solid var(--line);border-radius:var(--radius);padding:16px;margin:16px 0;display:grid;gap:12px;}
+  .lote-form label{font-size:.85rem;color:var(--cream-dim);display:block;margin-bottom:4px;}
+  .lote-form input, .lote-form select, .lote-form textarea{
+    width:100%;padding:9px 10px;background:var(--bg-elevated-2);border:1px solid var(--line);
+    border-radius:6px;color:var(--cream);font-family:var(--sans);font-size:.95rem;
+  }
+  .lote-form textarea{resize:vertical;min-height:50px;}
+  .row2{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
+
+  .lote-card{background:var(--bg-elevated);border:1px solid var(--line);border-radius:var(--radius);padding:14px 16px;margin:10px 0;}
+  .lote-card.highlight{border-color:var(--honey);}
+  .lote-card .top{display:flex;justify-content:space-between;align-items:baseline;gap:10px;}
+  .lote-card .name{font-family:var(--serif);color:var(--honey);font-size:1.05rem;}
+  .lote-card .status{font-size:.72rem;padding:3px 8px;border-radius:20px;border:1px solid var(--line);color:var(--cream-dim);white-space:nowrap;}
+  .lote-card dl{display:grid;grid-template-columns:auto 1fr;gap:2px 10px;margin:8px 0 0;font-size:.88rem;}
+  .lote-card dt{color:var(--cream-dim);}
+  .lote-card dd{margin:0;color:var(--cream);}
+  .lote-card .actions{margin-top:12px;display:flex;gap:8px;flex-wrap:wrap;}
+
+  .progress-bar{height:5px;border-radius:4px;background:var(--bg-elevated-2);margin:10px 0 2px;overflow:hidden;}
+  .progress-bar > span{display:block;height:100%;background:linear-gradient(90deg,var(--honey-dark),var(--honey-light));transition:width .3s ease;}
+
+  .steps-panel{margin-top:12px;border-top:1px solid var(--line);padding-top:10px;}
+  .step-row{display:flex;align-items:flex-start;gap:10px;padding:10px 0;border-bottom:1px solid var(--line);}
+  .step-row:last-child{border-bottom:none;}
+  .step-check{
+    width:24px;height:24px;border-radius:50%;border:1.5px solid var(--honey);
+    background:transparent;flex-shrink:0;cursor:pointer;display:flex;align-items:center;justify-content:center;
+    color:var(--honey);margin-top:1px;transition:background .15s ease;
+  }
+  .step-check.done{background:var(--honey);color:#1B140D;}
+  .step-row .info{flex:1;min-width:0;}
+  .step-row .info .title{font-weight:600;color:var(--cream);font-size:.92rem;}
+  .step-row .info .desc{color:var(--cream-dim);font-size:.85rem;margin-top:2px;}
+  .step-row .info .desc.done-text{color:var(--moss);}
+  .step-photo-wrap{display:flex;align-items:center;gap:8px;margin-top:8px;}
+  .step-thumb{width:52px;height:52px;border-radius:4px 12px 4px 12px;object-fit:cover;border:1px solid var(--line);cursor:pointer;}
+
+  .empty{text-align:center;color:var(--cream-dim);padding:40px 20px;font-family:var(--serif);font-size:1.05rem;}
+
+  nav.tabbar{position:fixed;bottom:0;left:0;right:0;background:var(--bg-elevated);border-top:1px solid var(--line);display:flex;justify-content:space-around;padding:8px 4px calc(8px + env(safe-area-inset-bottom));z-index:10;}
+  nav.tabbar button{background:none;border:none;color:var(--cream-dim);font-family:var(--sans);font-size:.7rem;display:flex;flex-direction:column;align-items:center;gap:4px;padding:4px 8px;cursor:pointer;flex:1;transition:color .15s ease;}
+  nav.tabbar button svg{width:20px;height:20px;stroke:var(--cream-dim);fill:none;stroke-width:1.8;transition:stroke .15s ease;}
+  nav.tabbar button.active{color:var(--honey);}
+  nav.tabbar button.active svg{stroke:var(--honey);}
+
+  section.view{display:none;}
+  section.view.active{display:block;}
+
+  footer.note{color:var(--cream-dim);font-size:.8rem;padding:20px 4px 8px;border-top:1px solid var(--line);margin-top:24px;}
+
+  /* lightbox for photo preview */
+  #lightbox{position:fixed;inset:0;background:rgba(0,0,0,.85);display:none;align-items:center;justify-content:center;z-index:50;padding:20px;}
+  #lightbox.open{display:flex;}
+  #lightbox img{max-width:100%;max-height:100%;border-radius:6px;}
+</style>
+</head>
+<body>
+
+<div class="wrap">
+
+  <!-- INICIO -->
+  <section class="view active" id="view-inicio">
+    <div class="hero">
+      <div class="drop-icon"></div>
+      <h1>Hidromiel</h1>
+      <p class="lede">La guía que te habría gustado tener el primer día.</p>
+    </div>
+    <p>Vas a fermentar miel, agua y levadura. Suena sencillo — y lo es — pero cada decisión pequeña cambia el resultado. Esto no te promete un hidromiel perfecto a la primera. Te promete entender <b style="color:var(--cream)">por qué</b> pasa lo que pasa, para poder corregir en vez de improvisar a ciegas.</p>
+    <p>El hidromiel es probablemente la bebida fermentada más antigua que existe. La química no ha cambiado desde los vikingos: es levadura comiéndose el azúcar de la miel y produciendo alcohol y CO₂. Lo que tiene fama de "exigente" es que la miel es pobre en los nutrientes que la levadura necesita — no es magia negra, es química con carencias, y se soluciona.</p>
+
+    <h2>Las tres reglas que de verdad importan</h2>
+    <ul class="rule-list">
+      <li><span class="n">1</span><span class="t"><b>Higiene primero.</b> Una contaminación arruina un lote entero, no una botella.</span></li>
+      <li><span class="n">2</span><span class="t"><b>Anota todo.</b> Cada mosto es un experimento irrepetible: fecha, densidad, levadura, temperatura.</span></li>
+      <li><span class="n">3</span><span class="t"><b>Paciencia.</b> Lo que sabe raro a las dos semanas, a menudo sabe espectacular a los seis meses.</span></li>
+    </ul>
+
+    <div class="callout"><p>Empieza por el <b>Tutorial</b> si es tu primer lote, elige una <b>Receta</b> para que te lleve paso a paso con fotos, o ve directo a <b>Mis lotes</b> si ya tienes algo fermentando.</p></div>
+  </section>
+
+  <!-- TUTORIAL -->
+  <section class="view" id="view-tutorial">
+    <h1>Tutorial</h1>
+
+    <h2>Qué necesitas</h2>
+    <table>
+      <tr><th>Equipo</th><th>Para qué</th></tr>
+      <tr><td>Fermentador</td><td>Contener el mosto — vidrio, acero o plástico alimentario</td></tr>
+      <tr><td>Airlock</td><td>Deja salir el CO₂ sin dejar entrar aire ni contaminación</td></tr>
+      <tr><td>Densímetro</td><td>Medir la densidad antes y después — clave para el ABV real</td></tr>
+      <tr><td>Termómetro</td><td>La temperatura estable importa más que la exacta</td></tr>
+    </table>
+
+    <h2>Los tres pilares</h2>
+    <p><b style="color:var(--cream)">Miel:</b> cuanto mejor sea, mejor tu hidromiel. Si está cristalizada, disuélvela al baño María.</p>
+    <p><b style="color:var(--cream)">Agua:</b> mejor blanda y sin cloro.</p>
+    <p><b style="color:var(--cream)">Levadura:</b> la miel es pobre en nitrógeno. Casi todas las recetas serias añaden rehidratante (Go-Ferm) al arrancar y nutrientes escalonados (Fermaid-K + DAP) durante los primeros días — no es opcional en mostos de alta densidad. Más abajo tienes el apartado completo de levaduras.</p>
+
+    <h2>Proporción miel / agua</h2>
+    <table>
+      <tr><th>Miel por litro</th><th>Resultado aprox.</th></tr>
+      <tr><td>100–150 g</td><td>Muy ligero y seco, pocos grados</td></tr>
+      <tr><td>250 g <span style="color:var(--cream-dim)">(1:3)</span></td><td>Punto de partida clásico — seco/semiseco, ~10% ABV</td></tr>
+      <tr><td>350–400 g</td><td>Más cuerpo y dulzor, 12–13% ABV</td></tr>
+      <tr><td>500 g <span style="color:var(--cream-dim)">(1:2)</span></td><td>Dulce y fuerte, 10–11% ABV con azúcar residual</td></tr>
+    </table>
+    <p style="font-size:.85rem">La levadura necesita al menos un 20% de agua en la mezcla para arrancar bien.</p>
+
+    <h2>Paso a paso</h2>
+    <details class="step" open>
+      <summary><span class="num">1</span>Preparar la miel</summary>
+      <div class="body"><p>Si está cristalizada, licúala al baño María. Opcionalmente, calienta 5 min a 65,5 °C para eliminar restos no deseados — sin hervir a fondo, para no perder aroma.</p></div>
+    </details>
+    <details class="step">
+      <summary><span class="num">2</span>Mezclar y medir</summary>
+      <div class="body"><p>Disuelve la miel en agua tibia y toma la densidad inicial (OG) con el densímetro. Es tu referencia para calcular el ABV final.</p></div>
+    </details>
+    <details class="step">
+      <summary><span class="num">3</span>Enfriar</summary>
+      <div class="body"><p>Baja la temperatura del mosto a 18–25 °C antes de añadir la levadura. Añadirla en caliente la mata.</p></div>
+    </details>
+    <details class="step">
+      <summary><span class="num">4</span>Inocular la levadura</summary>
+      <div class="body"><p>Rehidrata con un rehidratante nutricional, oxigena agitando el mosto y añádela. Cierra con el airlock.</p></div>
+    </details>
+    <details class="step">
+      <summary><span class="num">5</span>Fermentación primaria</summary>
+      <div class="body"><p>2–4 semanas. Verás burbujeo y espuma — buena señal. Añade los nutrientes de forma escalonada, no todo de golpe. Temperatura estable, lejos de luz solar.</p><p style="font-size:.85rem"><b style="color:var(--honey)">Plan B:</b> si no hay actividad en 24–36 h, rehidrata levadura nueva y vuelve a inocular.</p></div>
+    </details>
+    <details class="step">
+      <summary><span class="num">6</span>Trasiego y clarificación</summary>
+      <div class="body"><p>4–12 semanas. Cuando el burbujeo se calma y la densidad no baja más, separa el líquido claro del sedimento. Repite si hace falta.</p></div>
+    </details>
+    <details class="step">
+      <summary><span class="num">7</span>Embotellado y maduración</summary>
+      <div class="body"><p>2 semanas a 2 años, en vidrio, lugar fresco y oscuro. Mejora con el tiempo — los especiados y más dulces necesitan más paciencia.</p></div>
+    </details>
+
+    <h2 id="levaduras">Levaduras y sus clases</h2>
+    <p>La levadura decide más de lo que parece: tolerancia al alcohol, temperatura de trabajo y el aroma que deja atrás. Estas son las clases que te vas a encontrar:</p>
+
+    <div class="yeast-class">
+      <h3><span class="dot"></span>Levaduras de vino (las más comunes en hidromiel)</h3>
+      <p style="margin:0">Cepas de <i>Saccharomyces cerevisiae</i> seleccionadas para vino, muy fiables y con buena tolerancia al alcohol.</p>
+      <table>
+        <tr><th>Cepa</th><th>Tolerancia OH</th><th>Temp.</th><th>Aporta</th></tr>
+        <tr><td>Lalvin EC-1118</td><td>hasta 18%</td><td>10–30 °C</td><td>Neutra, muy resistente — ideal para arrancar fermentaciones difíciles o atascadas</td></tr>
+        <tr><td>Lalvin D-47</td><td>hasta 14–15%</td><td>15–20 °C</td><td>Floral y afrutada, notas cítricas — hidromiel seco y limpio</td></tr>
+        <tr><td>Lalvin 71B</td><td>hasta 14%</td><td>18–30 °C</td><td>Suaviza la acidez, notas afrutadas — muy usada en melomel</td></tr>
+        <tr><td>Lalvin K1-V1116</td><td>hasta 18%</td><td>10–35 °C</td><td>Versátil, aromas florales frescos, buena para arranques difíciles</td></tr>
+        <tr><td>Lalvin QA23</td><td>hasta 16%</td><td>15–30 °C</td><td>Sabor limpio y afrutado, clarifica rápido</td></tr>
+      </table>
+    </div>
+
+    <div class="yeast-class">
+      <h3><span class="dot"></span>Levaduras específicas de hidromiel</h3>
+      <p style="margin:0">Comercializadas ya pensadas para aguamiel — buena opción si no quieres decidir entre cepas de vino.</p>
+      <table>
+        <tr><th>Ejemplo</th><th>Para qué</th></tr>
+        <tr><td>Mangrove Jack's M05</td><td>De uso general, buena tolerancia, fermentación limpia</td></tr>
+        <tr><td>Fermentis Mead Yeast</td><td>Diseñada específicamente para mieles, fermentación previsible</td></tr>
+      </table>
+    </div>
+
+    <div class="yeast-class">
+      <h3><span class="dot"></span>Levaduras de cerveza (ale)</h3>
+      <p style="margin:0">Menor tolerancia al alcohol (12–14% aprox.) pero aportan más ésteres frutales — dan hidromieles más rústicos y con carácter, sobre todo en melomel.</p>
+      <table>
+        <tr><th>Ejemplo</th><th>Tolerancia OH</th></tr>
+        <tr><td>Nottingham Ale</td><td>hasta 14%</td></tr>
+        <tr><td>US-05 / WB-06</td><td>hasta 12%</td></tr>
+      </table>
+    </div>
+
+    <div class="callout"><p>Regla práctica: si buscas seco y limpio, D-47 o QA23. Si el mosto es muy denso o quieres asegurar el arranque, EC-1118 o K1-V1116. Si haces melomel, 71B realza la fruta.</p></div>
+  </section>
+
+  <!-- RECETAS -->
+  <section class="view" id="view-recetas">
+    <h1>Recetas</h1>
+    <p>Elige una receta y pulsa <b style="color:var(--cream)">"Seguir este proceso"</b>: se crea un lote nuevo en <b style="color:var(--cream)">Mis lotes</b> con los 7 pasos de esa receta, para que puedas marcarlos e ir guardando tus propias fotos a medida que avanzas.</p>
+    <div id="recetas-list"></div>
+  </section>
+
+  <!-- CONSEJOS -->
+  <section class="view" id="view-consejos">
+    <h1>Consejos</h1>
+    <h2>Errores comunes</h2>
+    <div class="problem">
+      <div class="sym">No arranca la fermentación</div>
+      <div class="fix">Probablemente la levadura murió por temperatura o falta de nutrientes. Rehidrata otra tanda y vuelve a inocular.</div>
+    </div>
+    <div class="problem">
+      <div class="sym">Huele a azufre o huevo podrido</div>
+      <div class="fix">Casi siempre falta de nutrientes nitrogenados. Añade Fermaid-K/DAP y agita suavemente para desgasificar.</div>
+    </div>
+    <div class="problem">
+      <div class="sym">Sabe muy alcohólico y "caliente"</div>
+      <div class="fix">Le falta tiempo de botella. El hidromiel joven siempre sabe más agresivo que el maduro.</div>
+    </div>
+    <div class="problem">
+      <div class="sym">Sabe a vinagre o tiene película en superficie</div>
+      <div class="fix">Se ha contaminado — este lote no se salva. Revisa la higiene del próximo.</div>
+    </div>
+
+    <h2>Glosario</h2>
+    <dl class="glossary">
+      <dt>OG</dt><dd>Densidad del mosto antes de fermentar (Original Gravity).</dd>
+      <dt>SG</dt><dd>Densidad al terminar la fermentación.</dd>
+      <dt>ABV</dt><dd>Grado alcohólico por volumen.</dd>
+      <dt>Airlock</dt><dd>Válvula que deja salir CO₂ sin dejar entrar aire.</dd>
+      <dt>Trasiego</dt><dd>Trasladar el líquido claro a otro recipiente, dejando el sedimento atrás.</dd>
+      <dt>Melomel</dt><dd>Hidromiel con fruta.</dd>
+      <dt>Metheglin</dt><dd>Hidromiel con especias o hierbas.</dd>
+      <dt>Sack mead</dt><dd>Hidromiel tradicional, dulce y de crianza larga.</dd>
+    </dl>
+  </section>
+
+  <!-- MIS LOTES -->
+  <section class="view" id="view-lotes">
+    <h1>Mis lotes</h1>
+    <p>Cada lote guarda fecha, receta, densidades, pasos y tus fotos del proceso. El ABV se calcula solo cuando rellenas OG y SG.</p>
+
+    <div class="btn-row" style="margin:10px 0 16px">
+      <button class="btn" id="btn-new-lote">+ Nuevo lote</button>
+      <button class="btn secondary" id="btn-export">Exportar JSON</button>
+      <label class="btn secondary" style="cursor:pointer">Importar JSON<input type="file" id="input-import" accept="application/json" style="display:none"></label>
+    </div>
+
+    <form class="lote-form" id="lote-form" style="display:none">
+      <input type="hidden" id="lote-id">
+      <div>
+        <label for="f-nombre">Nombre / nº de lote</label>
+        <input type="text" id="f-nombre" placeholder="HM-2026-03" required>
+      </div>
+      <div class="row2">
+        <div>
+          <label for="f-fecha">Fecha de elaboración</label>
+          <input type="date" id="f-fecha" required>
+        </div>
+        <div>
+          <label for="f-tipo">Receta / tipo</label>
+          <select id="f-tipo">
+            <option>Tradicional seco</option>
+            <option>Dulce y fuerte</option>
+            <option>Melomel</option>
+            <option>Metheglin</option>
+            <option>Otra</option>
+          </select>
+        </div>
+      </div>
+      <div class="row2">
+        <div>
+          <label for="f-miel">Miel (kg)</label>
+          <input type="number" step="0.01" id="f-miel">
+        </div>
+        <div>
+          <label for="f-agua">Agua (L)</label>
+          <input type="number" step="0.1" id="f-agua">
+        </div>
+      </div>
+      <div>
+        <label for="f-levadura">Levadura</label>
+        <input type="text" id="f-levadura" placeholder="p. ej. Lalvin D-47">
+      </div>
+      <div class="row2">
+        <div>
+          <label for="f-og">Densidad inicial (OG)</label>
+          <input type="number" step="0.001" id="f-og" placeholder="1.075">
+        </div>
+        <div>
+          <label for="f-sg">Densidad final (SG)</label>
+          <input type="number" step="0.001" id="f-sg" placeholder="0.995">
+        </div>
+      </div>
+      <div>
+        <label for="f-estado">Estado</label>
+        <select id="f-estado">
+          <option>Fermentando</option>
+          <option>Clarificando</option>
+          <option>Embotellado</option>
+          <option>Consumido</option>
+        </select>
+      </div>
+      <div>
+        <label for="f-notas">Notas de cata</label>
+        <textarea id="f-notas"></textarea>
+      </div>
+      <div class="btn-row">
+        <button type="submit" class="btn">Guardar lote</button>
+        <button type="button" class="btn secondary" id="btn-cancel">Cancelar</button>
+      </div>
+    </form>
+
+    <div id="lotes-list"></div>
+    <div class="empty" id="lotes-empty" style="display:none">Aún no tienes lotes. Crea el primero con "+ Nuevo lote" o elige una receta guiada.</div>
+  </section>
+
+  <footer class="note">Hidromiel · guía y cuaderno de lotes · funciona sin conexión una vez cargada · tus fotos se guardan solo en este dispositivo</footer>
+</div>
+
+<nav class="tabbar">
+  <button data-view="inicio" class="active">
+    <svg viewBox="0 0 24 24"><path d="M3 11l9-8 9 8"/><path d="M5 10v10h14V10"/></svg>
+    Inicio
+  </button>
+  <button data-view="tutorial">
+    <svg viewBox="0 0 24 24"><path d="M4 4h16v16H4z"/><path d="M8 8h8M8 12h8M8 16h5"/></svg>
+    Tutorial
+  </button>
+  <button data-view="recetas">
+    <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 3"/></svg>
+    Recetas
+  </button>
+  <button data-view="consejos">
+    <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 8v5"/><circle cx="12" cy="16" r="0.5"/></svg>
+    Consejos
+  </button>
+  <button data-view="lotes">
+    <svg viewBox="0 0 24 24"><path d="M9 2v4M15 2v4"/><rect x="4" y="4" width="16" height="17" rx="2"/><path d="M4 10h16"/></svg>
+    Mis lotes
+  </button>
+</nav>
+
+<div id="lightbox" onclick="this.classList.remove('open')"><img id="lightbox-img" src=""></div>
+
+<script src="./app.js"></script>
+</body>
+</html>
