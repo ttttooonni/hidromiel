@@ -54,10 +54,12 @@ Las ilustraciones genéricas (iconos, gotas) son propias, en SVG, para no depend
 ## Hidromiel 2.0 — actualización inicial
 
 - Panel de inicio con resumen de lotes activos, pasos pendientes y elaboraciones recientes.
+- Escalador de recetas por volumen objetivo, calculado desde la base de 5 litros.
+- Registro de mediciones de densidad y gráfica de evolución en cada lote.
 - Copias de seguridad JSON que incluyen las fotografías almacenadas en IndexedDB.
 - Importación validada y compatible con exportaciones antiguas en formato de array.
 - Estimación de ABV validada para evitar resultados absurdos con densidades inválidas.
 - Manifiesto de instalación e icono SVG añadidos para completar los recursos referenciados por la PWA.
-- Caché offline incrementada a `v4`.
+- Caché offline incrementada a `v5`.
 
 La aplicación continúa siendo local-first: los datos permanecen en el dispositivo y no se sincronizan automáticamente entre dispositivos.
