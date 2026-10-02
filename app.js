@@ -631,7 +631,7 @@ function renderRecetas() {
           <p class="recipe-quantities"><b>Para ${targetLitres} L:</b> ${(r.miel * scale).toFixed(2)} kg de miel · ${(r.agua * scale).toFixed(1)} L de agua</p>
           <p class="recipe-detail"><b>Levadura orientativa:</b> ${escapeHtml(r.levadura)} · <b>Temperatura:</b> ${escapeHtml(r.temp)}</p>
           <p class="recipe-detail"><b>Ingrediente / técnica adicional:</b> ${escapeHtml(r.extra)}</p>
-          <p class="recipe-detail"><b>Dificultad:</b> ${escapeHtml(r.difficulty)}. Fórmula orientativa; mide la densidad y ajusta al volumen final.</p>
+          <p class="recipe-detail"><b>Dificultad:</b> ${escapeHtml(r.difficulty)}. Cantidades extra indicadas como referencia para 5 L; escala proporcionalmente y mide la densidad real.</p>
         </div>
         <svg class="illus" viewBox="0 0 24 24" fill="none" stroke="var(--honey)" stroke-width="1.5">
           <path d="M12 3c3 3 5 6 5 9a5 5 0 0 1-10 0c0-3 2-6 5-9z"/>
@@ -895,11 +895,43 @@ function openForm(lote) {
 function closeForm() { form.style.display = 'none'; form.reset(); }
 btnNew.addEventListener('click', () => openForm(null));
 btnCancel.addEventListener('click', closeForm);
+
+// Catálogo completo de recetas disponible también sin conexión.
+const recipeTypeSelect = document.getElementById('f-tipo');
+if (recipeTypeSelect) {
+  const current = recipeTypeSelect.value;
+  recipeTypeSelect.innerHTML = RECETAS.map(r => `<option value="${escapeHtml(r.tipo)}">${escapeHtml(r.tipo)}</option>`).join('') + '<option value="Otra">Otra / personalizada</option>';
+  recipeTypeSelect.value = RECETAS.some(r => r.tipo === current) ? current : 'Tradicional seco';
+}
+const YEASTS = [
+ {name:'Lalvin EC-1118',profile:'Cepa enológica robusta y de amplio uso. Consulta ficha actual para dosis, temperatura y tolerancia según el producto y las condiciones.'},
+ {name:'Lalvin 71B',profile:'Cepa enológica conocida por su perfil frutal y metabolismo parcial del ácido málico; útil para valorar en recetas con fruta.'},
+ {name:'Lalvin K1-V1116',profile:'Cepa enológica seleccionada para buena expresión aromática y adaptación a diversas condiciones; respeta ficha técnica.'},
+ {name:'Lalvin QA23',profile:'Cepa enológica asociada a perfiles aromáticos y frutales; controla temperatura y nutrientes.'},
+ {name:'Lalvin ICV-D47',profile:'Cepa enológica que puede aportar cuerpo y complejidad; requiere control estricto de temperatura y nutrición.'},
+ {name:'SafMead Classic',profile:'Levadura desarrollada específicamente para hidromiel. Sigue las instrucciones de Fermentis para dosis, temperatura y nutrición.'},
+ {name:'SafMead Twist',profile:'Levadura específica para hidromiel orientada a perfiles especiados y complejos. Comprueba la ficha vigente del fabricante.'},
+ {name:'SafAle US-05',profile:'Levadura cervecera, no específica para hidromiel; se incluye para braggot y pruebas cerveceras. Verifica su idoneidad para la receta.'},
+ {name:'Otra / no especificada',profile:'Introduce la cepa en las notas del lote y consulta su ficha técnica antes de inocular.'}
+];
+const yeastSelect = document.getElementById('f-levadura');
+const yeastGuidance = document.getElementById('yeast-guidance');
+function updateYeastGuidance() {
+  if (!yeastSelect || !yeastGuidance) return;
+  const yeast = YEASTS.find(y => y.name === yeastSelect.value);
+  yeastGuidance.textContent = yeast ? yeast.profile : 'Consulta la ficha del fabricante para confirmar dosis, temperatura y tolerancia alcohólica.';
+}
+yeastSelect?.addEventListener('change', updateYeastGuidance);
 document.getElementById('f-tipo')?.addEventListener('change', e => {
   const receta = RECETAS.find(r => r.tipo === e.target.value);
-  if (!receta) return; // En "Otra", conservar las cantidades introducidas.
+  if (!receta) return; // En una receta personalizada, conserva cantidades manuales.
   document.getElementById('f-miel').value = receta.miel;
   document.getElementById('f-agua').value = receta.agua;
+  if (yeastSelect && receta.levadura) {
+    const recommended = receta.levadura.startsWith('SafAle') ? 'SafAle US-05' : receta.levadura.startsWith('SafMead') ? receta.levadura : receta.levadura.startsWith('EC-1118') ? 'Lalvin EC-1118' : receta.levadura === '71B' ? 'Lalvin 71B' : receta.levadura === 'D-47' ? 'Lalvin ICV-D47' : receta.levadura === 'QA23' ? 'Lalvin QA23' : receta.levadura === 'K1-V1116' ? 'Lalvin K1-V1116' : receta.levadura;
+    if ([...yeastSelect.options].some(o => o.value === recommended || o.textContent === recommended)) yeastSelect.value = recommended;
+    updateYeastGuidance();
+  }
 });
 
 
