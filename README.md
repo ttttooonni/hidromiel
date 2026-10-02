@@ -5,7 +5,7 @@
 **Publicación:** https://ttttooonni.github.io/hidromiel/  
 **Repositorio:** https://github.com/ttttooonni/hidromiel
 
-Hidromiel V1 reúne una guía de elaboración, un catálogo de recetas y un cuaderno para registrar lotes. Está diseñada para utilizarse desde el móvil o el ordenador y puede funcionar sin conexión después de cargar sus recursos.
+Hidromiel V1 reúne una guía de elaboración, un catálogo de recetas y un cuaderno para registrar lotes. Está diseñada para utilizarse desde el móvil o el ordenador y puede funcionar sin conexión después de cargar sus recursos. La portada y las secciones incluyen fotografías temáticas; las imágenes remotas requieren conexión en la primera carga para quedar disponibles en caché.
 
 > **Importante sobre las versiones:** V1 es la versión documental y funcional de referencia del proyecto. El número v9 de sw.js identifica únicamente la caché del service worker; no es el número de versión funcional de la aplicación.
 
