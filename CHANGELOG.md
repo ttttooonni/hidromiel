@@ -41,3 +41,14 @@ El registro describe los archivos y el alcance documental revisados. No sustituy
 - Portada y secciones apuntan a recursos visuales del repositorio.
 - Actualizada la caché del service worker a v14.
 - Se mantiene el icono SVG compatible; los iconos PNG dedicados quedan pendientes de generación y prueba en dispositivo.
+
+
+## Correcciones de tutorial e imágenes — v15
+
+- Ajustado el Plan B: comprobar temperatura, cierre del airlock y densidad antes de reinocular.
+- El trasiego se orienta por lecturas de densidad estables separadas en el tiempo.
+- Añadida nota de que calentar la miel es opcional y puede reducir su aroma.
+- Unificado el nombre de la levadura como Lalvin D-47 (ICV-D47) en el tutorial y Lalvin D-47 en el selector de lotes.
+- Eliminadas las imágenes decorativas repetidas y asignada una ilustración local a cada sección principal.
+- El resumen vacío muestra «Aún no tienes lotes. Crea el primero en Mis lotes».
+- Service worker actualizado a v15.
