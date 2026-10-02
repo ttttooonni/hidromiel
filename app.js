@@ -741,10 +741,10 @@ function renderLotes() {
         <p style="font-size:.78rem;margin:2px 0 0">${done}/7 pasos</p>
 
         <div class="actions">
-          <button class="btn small secondary" data-action="steps" data-id="${lote.id}">${isOpen ? 'Ocultar proceso' : 'Ver proceso'}</button>
-          <button class="btn small secondary" data-action="measurement" data-id="${lote.id}">+ Medición</button>
-          <button class="btn small secondary" data-action="edit" data-id="${lote.id}">Editar datos</button>
-          <button class="btn small danger" data-action="delete" data-id="${lote.id}">Eliminar</button>
+          <button type="button" class="btn small secondary" data-action="steps" data-id="${lote.id}">${isOpen ? 'Ocultar proceso' : 'Ver proceso'}</button>
+          <button type="button" class="btn small secondary" data-action="measurement" data-id="${lote.id}">+ Medición</button>
+          <button type="button" class="btn small secondary" data-action="edit" data-id="${lote.id}">Editar datos</button>
+          <button type="button" class="btn small danger" data-action="delete" data-id="${lote.id}">Eliminar</button>
         </div>
 
         <div class="steps-panel" data-panel="${lote.id}" style="display:${isOpen ? 'block' : 'none'}"></div>
@@ -846,12 +846,17 @@ function openStepsFor(loteId) {
 }
 
 document.getElementById('lotes-list').addEventListener('click', (e) => {
-  const btn = e.target.closest('button[data-action]');
+  const btn = e.target instanceof Element ? e.target.closest('button[data-action]') : null;
   if (!btn) return;
-  const { action, id } = btn.dataset;
+  e.preventDefault();
+  const action = btn.dataset.action;
+  const id = String(btn.dataset.id || '');
   const lotes = loadLotes();
-  const lote = lotes.find(l => l.id === id);
-  if (!lote) return;
+  const lote = lotes.find(l => String(l.id) === id);
+  if (!lote) {
+    console.error('No se encontró el lote para la acción:', action, id);
+    return;
+  }
 
   if (action === 'steps') {
     if (expandedSteps.has(id)) expandedSteps.delete(id); else expandedSteps.add(id);
@@ -860,9 +865,14 @@ document.getElementById('lotes-list').addEventListener('click', (e) => {
     openMeasurementForm(id);
   } else if (action === 'edit') {
     openForm(lote);
+    const form = document.getElementById('lote-form');
+    if (form) {
+      form.style.display = 'grid';
+      requestAnimationFrame(() => form.scrollIntoView({ behavior: 'smooth', block: 'start' }));
+    }
   } else if (action === 'delete') {
     if (confirm(`¿Eliminar el lote "${lote.nombre}"? Esta acción no se puede deshacer.`)) {
-      const keep = lotes.filter(l => l.id !== id);
+      const keep = lotes.filter(l => String(l.id) !== id);
       saveLotes(keep);
       expandedSteps.delete(id);
       for (let i = 0; i < 7; i++) deletePhoto(`${id}_${i}`).catch(() => {});
