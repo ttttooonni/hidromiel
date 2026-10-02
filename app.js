@@ -19,57 +19,467 @@ const STEP_TITLES = [
 // ---------- Recetas (datos + pasos para el asistente) ----------
 const RECETAS = [
   {
-    id: 'tradicional', tipo: 'Tradicional seco', nombre: 'Tradicional seco/semiseco',
-    resumen: '250 g de miel por litro de agua · ~10% ABV', miel: 1.25, agua: 5,
-    pasos: [
-      'Disuelve la miel al baño María si está cristalizada.',
-      'Mézclala con el agua y toma la densidad inicial (OG) con el densímetro.',
-      'Deja bajar la temperatura del mosto a 18–25 °C.',
-      'Rehidrata la levadura (Go-Ferm) y añádela. Cierra con el airlock.',
-      '2–4 semanas. Nutrientes escalonados los primeros días, temperatura estable.',
-      '4–12 semanas. Trasiega cuando el burbujeo se calme y la densidad no baje más.',
-      'Embotella en vidrio, lugar fresco y oscuro. Mínimo 2 semanas de maduración.',
-    ],
+    "id": "tradicional-seco",
+    "tipo": "Tradicional seco",
+    "nombre": "Tradicional seco",
+    "resumen": "Clásica, seca y centrada en la miel",
+    "miel": 1.25,
+    "agua": 5,
+    "levadura": "EC-1118",
+    "extra": "Miel y agua",
+    "temp": "18–22 °C",
+    "difficulty": "Básica",
+    "pasos": [
+      "Desinfecta el equipo que estará en contacto con el mosto.",
+      "Disuelve la miel en parte del agua y completa el volumen objetivo.",
+      "Mide y anota la densidad inicial (OG) y la temperatura.",
+      "Rehidrata e inocula la levadura siguiendo la ficha del fabricante.",
+      "Controla temperatura y añade nutrientes según las instrucciones del producto.",
+      "Registra densidad periódicamente; trasiega cuando proceda y la fermentación esté estable.",
+      "Confirma estabilidad de densidad antes de embotellar; no embotelles durante fermentación activa."
+    ]
   },
   {
-    id: 'dulce', tipo: 'Dulce y fuerte', nombre: 'Dulce y fuerte',
-    resumen: '1 kg de miel por cada 2 L de agua · ~10–11% ABV', miel: 2.5, agua: 5,
-    pasos: [
-      'Disuelve la miel al baño María — hay bastante cantidad, ve con calma.',
-      'Mézclala con el agua y toma la densidad inicial (será alta, 1.090+).',
-      'Enfría a 15–22 °C: con tanta miel conviene ir en la parte baja del rango.',
-      'Rehidrata la levadura y añádela. La alta densidad puede ralentizar el arranque.',
-      '3–5 semanas — puede ser más lenta de lo normal por la concentración de azúcar.',
-      '4–12 semanas. Trasiega con cuidado, suele quedar bastante sedimento.',
-      'Embotella y da tiempo: los dulces y fuertes mejoran mucho con meses de botella.',
-    ],
+    "id": "tradicional-semiseco",
+    "tipo": "Tradicional semiseco",
+    "nombre": "Tradicional semiseco",
+    "resumen": "Base tradicional; el dulzor final depende de fermentación y estabilización",
+    "miel": 1.35,
+    "agua": 5,
+    "levadura": "71B",
+    "extra": "Miel y agua",
+    "temp": "18–22 °C",
+    "difficulty": "Básica",
+    "pasos": [
+      "Desinfecta el equipo que estará en contacto con el mosto.",
+      "Disuelve la miel en parte del agua y completa el volumen objetivo.",
+      "Mide y anota la densidad inicial (OG) y la temperatura.",
+      "Rehidrata e inocula la levadura siguiendo la ficha del fabricante.",
+      "Controla temperatura y añade nutrientes según las instrucciones del producto.",
+      "Registra densidad periódicamente; trasiega cuando proceda y la fermentación esté estable.",
+      "Confirma estabilidad de densidad antes de embotellar; no embotelles durante fermentación activa."
+    ]
   },
   {
-    id: 'melomel', tipo: 'Melomel', nombre: 'Melomel (con fruta)',
-    resumen: 'Base tradicional + fruta · aroma y acidez extra', miel: 1.25, agua: 5,
-    pasos: [
-      'Disuelve la miel al baño María.',
-      'Mézclala con el agua y toma la densidad inicial.',
-      'Enfría a 18–25 °C.',
-      'Rehidrata la levadura y añádela — 71B va muy bien para realzar la fruta.',
-      'A mitad de la primaria (o en secundaria) añade la fruta troceada, en bolsa de malla.',
-      'Trasiega retirando la fruta y deja clarificar 4–12 semanas.',
-      'Embotella. La fruta se integra bien con 2–3 meses de botella.',
-    ],
+    "id": "tradicional-dulce",
+    "tipo": "Tradicional dulce",
+    "nombre": "Tradicional dulce",
+    "resumen": "Más miel no garantiza dulzor residual; controlar densidad y estabilización",
+    "miel": 1.75,
+    "agua": 5,
+    "levadura": "SafMead Classic",
+    "extra": "Miel y agua",
+    "temp": "18–22 °C",
+    "difficulty": "Intermedia",
+    "pasos": [
+      "Desinfecta el equipo que estará en contacto con el mosto.",
+      "Disuelve la miel en parte del agua y completa el volumen objetivo.",
+      "Mide y anota la densidad inicial (OG) y la temperatura.",
+      "Rehidrata e inocula la levadura siguiendo la ficha del fabricante.",
+      "Controla temperatura y añade nutrientes según las instrucciones del producto.",
+      "Registra densidad periódicamente; trasiega cuando proceda y la fermentación esté estable.",
+      "Confirma estabilidad de densidad antes de embotellar; no embotelles durante fermentación activa."
+    ]
   },
   {
-    id: 'metheglin', tipo: 'Metheglin', nombre: 'Metheglin (especiado)',
-    resumen: 'Base tradicional + especias o hierbas en infusión', miel: 1.25, agua: 5,
-    pasos: [
-      'Prepara una infusión con las especias/hierbas elegidas mientras preparas la miel.',
-      'Cuela la infusión, mézclala con la miel y el agua, y toma la densidad inicial.',
-      'Enfría a 18–25 °C.',
-      'Rehidrata la levadura y añádela.',
-      '2–4 semanas de fermentación primaria, nutrientes escalonados.',
-      'Trasiega y clarifica 4–12 semanas.',
-      'Prueba y cuela bien antes de embotellar, para evitar amargor con el tiempo.',
-    ],
+    "id": "hydromel",
+    "tipo": "Hydromel ligero",
+    "nombre": "Hydromel ligero",
+    "resumen": "Menor concentración inicial para una bebida ligera",
+    "miel": 0.9,
+    "agua": 5,
+    "levadura": "SafMead Classic",
+    "extra": "Miel y agua",
+    "temp": "18–22 °C",
+    "difficulty": "Básica",
+    "pasos": [
+      "Desinfecta el equipo que estará en contacto con el mosto.",
+      "Disuelve la miel en parte del agua y completa el volumen objetivo.",
+      "Mide y anota la densidad inicial (OG) y la temperatura.",
+      "Rehidrata e inocula la levadura siguiendo la ficha del fabricante.",
+      "Controla temperatura y añade nutrientes según las instrucciones del producto.",
+      "Registra densidad periódicamente; trasiega cuando proceda y la fermentación esté estable.",
+      "Confirma estabilidad de densidad antes de embotellar; no embotelles durante fermentación activa."
+    ]
   },
+  {
+    "id": "sack",
+    "tipo": "Tradicional de alta densidad",
+    "nombre": "Tradicional de alta densidad",
+    "resumen": "Mosto concentrado; requiere nutrición y control cuidadoso",
+    "miel": 2,
+    "agua": 5,
+    "levadura": "EC-1118",
+    "extra": "Miel y agua",
+    "temp": "16–20 °C",
+    "difficulty": "Avanzada",
+    "pasos": [
+      "Desinfecta el equipo que estará en contacto con el mosto.",
+      "Disuelve la miel en parte del agua y completa el volumen objetivo.",
+      "Mide y anota la densidad inicial (OG) y la temperatura.",
+      "Rehidrata e inocula la levadura siguiendo la ficha del fabricante.",
+      "Controla temperatura y añade nutrientes según las instrucciones del producto.",
+      "Registra densidad periódicamente; trasiega cuando proceda y la fermentación esté estable.",
+      "Confirma estabilidad de densidad antes de embotellar; no embotelles durante fermentación activa."
+    ]
+  },
+  {
+    "id": "melomel-frutos-rojos",
+    "tipo": "Melomel de frutos rojos",
+    "nombre": "Melomel de frutos rojos",
+    "resumen": "Frambuesa, mora o arándano",
+    "miel": 1.25,
+    "agua": 4.5,
+    "levadura": "71B",
+    "extra": "500–800 g de frutos rojos por 5 L",
+    "temp": "18–22 °C",
+    "difficulty": "Intermedia",
+    "pasos": [
+      "Desinfecta el equipo y prepara fruta sana; registra su peso.",
+      "Disuelve miel, completa con agua y mide la densidad inicial.",
+      "Ajusta la temperatura al rango de la cepa elegida.",
+      "Inocula según la ficha técnica de la levadura.",
+      "Añade fruta según la receta y evita oxidación; usa bolsa apta si facilita retirar sólidos.",
+      "Registra densidad y retira fruta/sedimento cuando corresponda; no te guíes solo por el burbujeo.",
+      "Embotella solo con densidad estable y control de riesgo de refermentación."
+    ]
+  },
+  {
+    "id": "melomel-fresa",
+    "tipo": "Melomel de fresa",
+    "nombre": "Melomel de fresa",
+    "resumen": "Fruta delicada; proteger de oxidación",
+    "miel": 1.25,
+    "agua": 4.5,
+    "levadura": "71B",
+    "extra": "600–900 g de fresa por 5 L",
+    "temp": "18–22 °C",
+    "difficulty": "Intermedia",
+    "pasos": [
+      "Desinfecta el equipo y prepara fruta sana; registra su peso.",
+      "Disuelve miel, completa con agua y mide la densidad inicial.",
+      "Ajusta la temperatura al rango de la cepa elegida.",
+      "Inocula según la ficha técnica de la levadura.",
+      "Añade fruta según la receta y evita oxidación; usa bolsa apta si facilita retirar sólidos.",
+      "Registra densidad y retira fruta/sedimento cuando corresponda; no te guíes solo por el burbujeo.",
+      "Embotella solo con densidad estable y control de riesgo de refermentación."
+    ]
+  },
+  {
+    "id": "melomel-cereza",
+    "tipo": "Melomel de cereza",
+    "nombre": "Melomel de cereza",
+    "resumen": "Perfil frutal intenso; no romper huesos",
+    "miel": 1.3,
+    "agua": 4.5,
+    "levadura": "QA23",
+    "extra": "500–800 g de cereza por 5 L",
+    "temp": "16–22 °C",
+    "difficulty": "Intermedia",
+    "pasos": [
+      "Desinfecta el equipo y prepara fruta sana; registra su peso.",
+      "Disuelve miel, completa con agua y mide la densidad inicial.",
+      "Ajusta la temperatura al rango de la cepa elegida.",
+      "Inocula según la ficha técnica de la levadura.",
+      "Añade fruta según la receta y evita oxidación; usa bolsa apta si facilita retirar sólidos.",
+      "Registra densidad y retira fruta/sedimento cuando corresponda; no te guíes solo por el burbujeo.",
+      "Embotella solo con densidad estable y control de riesgo de refermentación."
+    ]
+  },
+  {
+    "id": "melomel-melocoton",
+    "tipo": "Melomel de melocotón",
+    "nombre": "Melomel de melocotón",
+    "resumen": "Aromático y suave; fruta madura y sana",
+    "miel": 1.25,
+    "agua": 4.5,
+    "levadura": "71B",
+    "extra": "600–900 g de melocotón por 5 L",
+    "temp": "18–22 °C",
+    "difficulty": "Intermedia",
+    "pasos": [
+      "Desinfecta el equipo y prepara fruta sana; registra su peso.",
+      "Disuelve miel, completa con agua y mide la densidad inicial.",
+      "Ajusta la temperatura al rango de la cepa elegida.",
+      "Inocula según la ficha técnica de la levadura.",
+      "Añade fruta según la receta y evita oxidación; usa bolsa apta si facilita retirar sólidos.",
+      "Registra densidad y retira fruta/sedimento cuando corresponda; no te guíes solo por el burbujeo.",
+      "Embotella solo con densidad estable y control de riesgo de refermentación."
+    ]
+  },
+  {
+    "id": "cyser",
+    "tipo": "Cyser de manzana",
+    "nombre": "Cyser de manzana",
+    "resumen": "Hidromiel con zumo de manzana; contar sus azúcares",
+    "miel": 1,
+    "agua": 3.5,
+    "levadura": "QA23",
+    "extra": "1.5 L de zumo de manzana por 5 L",
+    "temp": "16–22 °C",
+    "difficulty": "Intermedia",
+    "pasos": [
+      "Desinfecta el equipo y prepara fruta sana; registra su peso.",
+      "Disuelve miel, completa con agua y mide la densidad inicial.",
+      "Ajusta la temperatura al rango de la cepa elegida.",
+      "Inocula según la ficha técnica de la levadura.",
+      "Añade fruta según la receta y evita oxidación; usa bolsa apta si facilita retirar sólidos.",
+      "Registra densidad y retira fruta/sedimento cuando corresponda; no te guíes solo por el burbujeo.",
+      "Embotella solo con densidad estable y control de riesgo de refermentación."
+    ]
+  },
+  {
+    "id": "pyment",
+    "tipo": "Pyment de uva",
+    "nombre": "Pyment de uva",
+    "resumen": "Miel y uva o mosto; ajustar agua al volumen final",
+    "miel": 1,
+    "agua": 3.5,
+    "levadura": "EC-1118",
+    "extra": "1.5 L de mosto de uva por 5 L",
+    "temp": "18–24 °C",
+    "difficulty": "Intermedia",
+    "pasos": [
+      "Desinfecta el equipo y prepara fruta sana; registra su peso.",
+      "Disuelve miel, completa con agua y mide la densidad inicial.",
+      "Ajusta la temperatura al rango de la cepa elegida.",
+      "Inocula según la ficha técnica de la levadura.",
+      "Añade fruta según la receta y evita oxidación; usa bolsa apta si facilita retirar sólidos.",
+      "Registra densidad y retira fruta/sedimento cuando corresponda; no te guíes solo por el burbujeo.",
+      "Embotella solo con densidad estable y control de riesgo de refermentación."
+    ]
+  },
+  {
+    "id": "tropical",
+    "tipo": "Melomel tropical",
+    "nombre": "Melomel tropical",
+    "resumen": "Mango, maracuyá o piña; medir acidez y densidad",
+    "miel": 1.2,
+    "agua": 4.5,
+    "levadura": "K1-V1116",
+    "extra": "500–800 g de fruta tropical por 5 L",
+    "temp": "18–22 °C",
+    "difficulty": "Intermedia",
+    "pasos": [
+      "Desinfecta el equipo y prepara fruta sana; registra su peso.",
+      "Disuelve miel, completa con agua y mide la densidad inicial.",
+      "Ajusta la temperatura al rango de la cepa elegida.",
+      "Inocula según la ficha técnica de la levadura.",
+      "Añade fruta según la receta y evita oxidación; usa bolsa apta si facilita retirar sólidos.",
+      "Registra densidad y retira fruta/sedimento cuando corresponda; no te guíes solo por el burbujeo.",
+      "Embotella solo con densidad estable y control de riesgo de refermentación."
+    ]
+  },
+  {
+    "id": "citrico",
+    "tipo": "Melomel cítrico",
+    "nombre": "Melomel cítrico",
+    "resumen": "Usar zumo y piel con moderación para evitar amargor",
+    "miel": 1.25,
+    "agua": 4.5,
+    "levadura": "QA23",
+    "extra": "Zumo y piel fina de cítrico al gusto",
+    "temp": "16–22 °C",
+    "difficulty": "Intermedia",
+    "pasos": [
+      "Desinfecta el equipo y prepara fruta sana; registra su peso.",
+      "Disuelve miel, completa con agua y mide la densidad inicial.",
+      "Ajusta la temperatura al rango de la cepa elegida.",
+      "Inocula según la ficha técnica de la levadura.",
+      "Añade fruta según la receta y evita oxidación; usa bolsa apta si facilita retirar sólidos.",
+      "Registra densidad y retira fruta/sedimento cuando corresponda; no te guíes solo por el burbujeo.",
+      "Embotella solo con densidad estable y control de riesgo de refermentación."
+    ]
+  },
+  {
+    "id": "metheglin-canela",
+    "tipo": "Metheglin de canela",
+    "nombre": "Metheglin de canela",
+    "resumen": "Especiado cálido; añadir poco a poco y catar",
+    "miel": 1.25,
+    "agua": 5,
+    "levadura": "D-47",
+    "extra": "Una rama pequeña de canela por 5 L, ajustar al gusto",
+    "temp": "16–20 °C",
+    "difficulty": "Intermedia",
+    "pasos": [
+      "Desinfecta equipo y prepara una adición medida de especias.",
+      "Disuelve miel, mezcla con agua y registra densidad inicial.",
+      "Ajusta la temperatura al rango de la cepa seleccionada.",
+      "Inocula siguiendo la ficha técnica.",
+      "Controla temperatura y nutrición según el fabricante del nutriente.",
+      "Añade o retira especias con catas pequeñas y registra cambios.",
+      "Confirma estabilidad, clarifica y embotella de forma segura."
+    ]
+  },
+  {
+    "id": "metheglin-vainilla",
+    "tipo": "Metheglin de vainilla",
+    "nombre": "Metheglin de vainilla",
+    "resumen": "Vainilla en secundaria; probar periódicamente",
+    "miel": 1.25,
+    "agua": 5,
+    "levadura": "71B",
+    "extra": "Media vaina por 5 L, al gusto",
+    "temp": "18–22 °C",
+    "difficulty": "Intermedia",
+    "pasos": [
+      "Desinfecta equipo y prepara una adición medida de especias.",
+      "Disuelve miel, mezcla con agua y registra densidad inicial.",
+      "Ajusta la temperatura al rango de la cepa seleccionada.",
+      "Inocula siguiendo la ficha técnica.",
+      "Controla temperatura y nutrición según el fabricante del nutriente.",
+      "Añade o retira especias con catas pequeñas y registra cambios.",
+      "Confirma estabilidad, clarifica y embotella de forma segura."
+    ]
+  },
+  {
+    "id": "metheglin-jengibre",
+    "tipo": "Metheglin de jengibre",
+    "nombre": "Metheglin de jengibre",
+    "resumen": "Jengibre fresco para un perfil cítrico y especiado",
+    "miel": 1.25,
+    "agua": 4.8,
+    "levadura": "K1-V1116",
+    "extra": "20–50 g de jengibre por 5 L, al gusto",
+    "temp": "18–22 °C",
+    "difficulty": "Intermedia",
+    "pasos": [
+      "Desinfecta equipo y prepara una adición medida de especias.",
+      "Disuelve miel, mezcla con agua y registra densidad inicial.",
+      "Ajusta la temperatura al rango de la cepa seleccionada.",
+      "Inocula siguiendo la ficha técnica.",
+      "Controla temperatura y nutrición según el fabricante del nutriente.",
+      "Añade o retira especias con catas pequeñas y registra cambios.",
+      "Confirma estabilidad, clarifica y embotella de forma segura."
+    ]
+  },
+  {
+    "id": "bochet",
+    "tipo": "Bochet",
+    "nombre": "Bochet",
+    "resumen": "Miel caramelizada; evitar quemarla",
+    "miel": 1.5,
+    "agua": 5,
+    "levadura": "EC-1118",
+    "extra": "Caramelizar parte de la miel con precaución",
+    "temp": "18–22 °C",
+    "difficulty": "Avanzada",
+    "pasos": [
+      "Calienta la miel en una olla amplia, vigilada y sin dejarla sola; está muy caliente y puede causar quemaduras graves.",
+      "Disuelve la miel caramelizada con agua con extrema precaución para evitar salpicaduras; enfría y completa volumen.",
+      "Mide densidad cuando el mosto esté homogéneo y a temperatura adecuada.",
+      "Inocula según la ficha técnica de la levadura.",
+      "Controla temperatura y nutrición; la miel caramelizada puede fermentar de forma diferente.",
+      "Registra densidad, aroma y evolución; trasiega cuando corresponda.",
+      "No embotelles hasta confirmar estabilidad y ausencia de fermentación activa."
+    ]
+  },
+  {
+    "id": "bochetomel",
+    "tipo": "Bochetomel de frutos rojos",
+    "nombre": "Bochetomel de frutos rojos",
+    "resumen": "Miel caramelizada con fruta",
+    "miel": 1.5,
+    "agua": 4.5,
+    "levadura": "71B",
+    "extra": "400–700 g de frutos rojos por 5 L",
+    "temp": "18–22 °C",
+    "difficulty": "Avanzada",
+    "pasos": [
+      "Calienta la miel en una olla amplia, vigilada y sin dejarla sola; está muy caliente y puede causar quemaduras graves.",
+      "Disuelve la miel caramelizada con agua con extrema precaución para evitar salpicaduras; enfría y completa volumen.",
+      "Mide densidad cuando el mosto esté homogéneo y a temperatura adecuada.",
+      "Inocula según la ficha técnica de la levadura.",
+      "Controla temperatura y nutrición; la miel caramelizada puede fermentar de forma diferente.",
+      "Registra densidad, aroma y evolución; trasiega cuando corresponda.",
+      "No embotelles hasta confirmar estabilidad y ausencia de fermentación activa."
+    ]
+  },
+  {
+    "id": "braggot",
+    "tipo": "Braggot de miel y malta",
+    "nombre": "Braggot de miel y malta",
+    "resumen": "Estilo híbrido que requiere macerado de malta",
+    "miel": 0.8,
+    "agua": 2.5,
+    "levadura": "SafAle US-05",
+    "extra": "1–1.5 kg de malta base por 5 L, maceración aparte",
+    "temp": "18–22 °C",
+    "difficulty": "Avanzada",
+    "pasos": [
+      "Macerar malta requiere una receta cervecera validada; controlar tiempo y temperatura.",
+      "Filtra el mosto de malta, añade miel y ajusta al volumen final.",
+      "Enfría al rango indicado por la cepa.",
+      "Inocula según la ficha técnica.",
+      "Controla densidad, temperatura e higiene.",
+      "Mide densidad y deja madurar tras estabilizarse la fermentación.",
+      "Envasa únicamente tras confirmar estabilidad y presión segura."
+    ]
+  },
+  {
+    "id": "hidromiel-lupulada",
+    "tipo": "Hidromiel lupulada",
+    "nombre": "Hidromiel lupulada",
+    "resumen": "Aroma de lúpulo; controlar técnica y amargor",
+    "miel": 1.25,
+    "agua": 5,
+    "levadura": "SafAle US-05",
+    "extra": "2–8 g de lúpulo por 5 L, según variedad",
+    "temp": "18–22 °C",
+    "difficulty": "Avanzada",
+    "pasos": [
+      "Prepara mosto de miel y agua y registra densidad inicial.",
+      "Usa una técnica de adición de lúpulo definida y cantidades pequeñas.",
+      "Ajusta la temperatura e inocula la levadura.",
+      "Controla temperatura y nutrición según ficha técnica.",
+      "Evalúa aroma y amargor con catas pequeñas y registra las adiciones.",
+      "Mide densidad y deja estabilizar la fermentación.",
+      "Embotella solo con densidad estable y control de refermentación."
+    ]
+  },
+  {
+    "id": "cafe-cacao",
+    "tipo": "Hidromiel de café y cacao",
+    "nombre": "Hidromiel de café y cacao",
+    "resumen": "Probar en pequeñas cantidades para evitar amargor excesivo",
+    "miel": 1.25,
+    "agua": 5,
+    "levadura": "D-47",
+    "extra": "Café frío o cacao en secundaria, al gusto",
+    "temp": "16–20 °C",
+    "difficulty": "Intermedia",
+    "pasos": [
+      "Desinfecta equipo y prepara una adición medida de especias.",
+      "Disuelve miel, mezcla con agua y registra densidad inicial.",
+      "Ajusta la temperatura al rango de la cepa seleccionada.",
+      "Inocula siguiendo la ficha técnica.",
+      "Controla temperatura y nutrición según el fabricante del nutriente.",
+      "Añade o retira especias con catas pequeñas y registra cambios.",
+      "Confirma estabilidad, clarifica y embotella de forma segura."
+    ]
+  },
+  {
+    "id": "hidromiel-roble",
+    "tipo": "Hidromiel con roble",
+    "nombre": "Hidromiel con roble",
+    "resumen": "Maduración con roble enológico y catas frecuentes",
+    "miel": 1.35,
+    "agua": 5,
+    "levadura": "D-47",
+    "extra": "Roble enológico según fabricante",
+    "temp": "16–20 °C",
+    "difficulty": "Avanzada",
+    "pasos": [
+      "Desinfecta equipo y prepara una adición medida de especias.",
+      "Disuelve miel, mezcla con agua y registra densidad inicial.",
+      "Ajusta la temperatura al rango de la cepa seleccionada.",
+      "Inocula siguiendo la ficha técnica.",
+      "Controla temperatura y nutrición según el fabricante del nutriente.",
+      "Añade o retira especias con catas pequeñas y registra cambios.",
+      "Confirma estabilidad, clarifica y embotella de forma segura."
+    ]
+  }
 ];
 
 // ---------- Routing por hash ----------
@@ -197,7 +607,7 @@ function fmtDate(iso) {
 }
 function emptyPasos() { return STEP_TITLES.map(() => ({ done: false, fecha: null })); }
 function pasosTextos(lote) {
-  const receta = RECETAS.find(r => r.tipo === lote.tipo);
+  const receta = RECETAS.find(r => r.tipo === lote.tipo || r.id === lote.recetaId);
   return receta ? receta.pasos : STEP_TITLES.map(t => t);
 }
 function escapeHtml(str) {
@@ -219,6 +629,9 @@ function renderRecetas() {
           <h3>${escapeHtml(r.nombre)}</h3>
           <p style="margin:2px 0 0">${escapeHtml(r.resumen)}</p>
           <p class="recipe-quantities"><b>Para ${targetLitres} L:</b> ${(r.miel * scale).toFixed(2)} kg de miel · ${(r.agua * scale).toFixed(1)} L de agua</p>
+          <p class="recipe-detail"><b>Levadura orientativa:</b> ${escapeHtml(r.levadura)} · <b>Temperatura:</b> ${escapeHtml(r.temp)}</p>
+          <p class="recipe-detail"><b>Ingrediente / técnica adicional:</b> ${escapeHtml(r.extra)}</p>
+          <p class="recipe-detail"><b>Dificultad:</b> ${escapeHtml(r.difficulty)}. Fórmula orientativa; mide la densidad y ajusta al volumen final.</p>
         </div>
         <svg class="illus" viewBox="0 0 24 24" fill="none" stroke="var(--honey)" stroke-width="1.5">
           <path d="M12 3c3 3 5 6 5 9a5 5 0 0 1-10 0c0-3 2-6 5-9z"/>
@@ -248,10 +661,12 @@ function startReceta(id) {
     nombre: `${receta.nombre.split(' ')[0]}-${new Date().getFullYear()}-${String(n).padStart(2, '0')}`,
     fecha: new Date().toISOString().slice(0, 10),
     tipo: receta.tipo,
+    recetaId: receta.id,
+    ingredientesExtra: receta.extra,
     miel: Math.round(receta.miel * scale * 100) / 100,
     agua: Math.round(receta.agua * scale * 10) / 10,
     volumenObjetivo: targetLitres,
-    levadura: '',
+    levadura: receta.levadura,
     og: '', sg: '',
     estado: 'Fermentando',
     notas: '',
