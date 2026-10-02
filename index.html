@@ -7,7 +7,7 @@
 <meta name="description" content="Tutorial paso a paso de hidromiel, recetas guiadas, levaduras, consejos y control de fecha/lote con fotos.">
 <meta name="theme-color" content="#F6F4EE">
 <link rel="manifest" href="./manifest.json">
-<link rel="icon" type="image/svg+xml" href="./icons/icon.svg">
+<link rel="icon" type="image/svg+xml" href="./icons/favicon.svg"><link rel="apple-touch-icon" href="./icons/icon.svg"><meta name="application-name" content="Mi Hidromiel">
 
 <style>
   :root{
@@ -257,7 +257,7 @@ nav.tabbar{background:rgba(255,255,255,.94);backdrop-filter:blur(16px);-webkit-b
 :root{color-scheme:light;--bg:#F6F4EE;--bg-elevated:#FFFFFF;--bg-elevated-2:#F0EDE4;--honey:#B66A18;--honey-light:#D58A2C;--honey-dark:#8E4D0B;--cream:#20251F;--cream-dim:#626A60;--moss:#55765A;--danger:#B94B3B;--line:#E4E0D5;--radius:18px}
 html,body{background:var(--bg);color:var(--cream);line-height:1.6}body,button,input,select,textarea{font-family:Inter,ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-serif}.wrap{max-width:760px;padding:24px 18px 32px}
 h1,h2,h3{font-family:inherit;color:var(--cream);letter-spacing:-.04em;font-weight:750}h1{font-size:clamp(2.25rem,8vw,3.2rem);line-height:1.02;letter-spacing:-.055em}h2{font-size:1.45rem}h3{font-size:1.08rem}p{color:var(--cream-dim);line-height:1.7}
-.hero{border-radius:26px;background:linear-gradient(130deg,#F1E7D3,#FAF8F2 58%,#E5EAD9);border:1px solid #E6DDCA;box-shadow:0 8px 24px #262B200D;padding:28px 22px}.hero .lede{color:#5B6255}.hero .drop-icon{border-radius:13px 13px 13px 4px;box-shadow:0 8px 18px #A6601228}
+.hero{border-radius:26px;background:#26331C;border:1px solid #D7C9AA;box-shadow:0 8px 24px #262B200D;padding:0 0 22px;overflow:hidden}.hero-art{display:block;width:100%;height:auto;aspect-ratio:2.5/1;object-fit:cover}.hero h1,.hero .lede{margin-left:22px;margin-right:22px}.hero h1{margin-top:18px;color:#20251F}.hero .lede{color:#5B6255}
 .dashboard-shell{background:#fff;border:1px solid var(--line);border-radius:22px;box-shadow:0 8px 24px #262B200D;padding:20px}.dashboard-shell h2{margin-top:0}.dashboard-card{background:#F8F7F2;border:1px solid var(--line);border-radius:16px;padding:16px}.dashboard-card strong{color:var(--honey-dark);font-size:2rem;letter-spacing:-.05em}.dash-status{background:#F0F5EE;color:#426248;border-color:#D9E4D5}
 .recipe,.lote-card,.lote-form,.recipe-scaler,.measurement-section,.step,.yeast-class{background:#fff;border:1px solid var(--line);border-radius:18px;box-shadow:0 3px 12px #262B2006}.recipe,.lote-card{padding:18px}.recipe{transition:transform .16s,border-color .16s,box-shadow .16s}.recipe:hover{transform:translateY(-2px);border-color:#D7C4A4;box-shadow:0 10px 28px #262B2010}.recipe .tag{font-size:.7rem;font-weight:750;letter-spacing:.07em;text-transform:uppercase;color:var(--honey-dark)}.recipe-quantities{background:#F8F0E3;color:var(--honey-dark)!important;border-radius:11px;padding:10px 12px}.recipe-detail{color:var(--cream-dim)}.recipe-detail b{color:var(--cream)}
 .btn{background:var(--honey-dark);border:1px solid var(--honey-dark);color:#fff;border-radius:12px;padding:12px 17px;font-weight:700;box-shadow:none;transition:transform .15s,background .15s}.btn:hover{background:#713B08}.btn:active{transform:translateY(1px);box-shadow:none}.btn.secondary{background:#fff;color:var(--honey-dark);border-color:#D9C7AB}.btn.danger{background:#fff;color:var(--danger);border-color:#E8C7C2}.btn.small{border-radius:10px;padding:8px 12px}
@@ -277,9 +277,9 @@ nav.tabbar{background:#FFFFFFF2;backdrop-filter:blur(16px);-webkit-backdrop-filt
   <!-- INICIO -->
   <section class="view active" id="view-inicio">
     <div class="hero">
-      <div class="drop-icon"></div>
-      <h1>Hidromiel</h1>
-      <p class="lede">La guía que te habría gustado tener el primer día.</p>
+      <img src="./images/hero.svg" alt="Mi Hidromiel: tu cuaderno de elaboración" class="hero-art" width="1200" height="480" fetchpriority="high">
+      <h1>Mi Hidromiel</h1>
+      <p class="lede">Tu cuaderno de elaboración: recetas, lotes, mediciones y consejos.</p>
     </div>
 
     <div class="dashboard-shell">
