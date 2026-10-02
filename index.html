@@ -200,6 +200,19 @@
   .btn:disabled{opacity:.65;cursor:wait;}
   @media(min-width:560px){.dashboard-shell{padding:20px}.dashboard-card{padding:16px}}
 
+
+  .recipe-scaler{display:grid;grid-template-columns:1fr;gap:6px;background:var(--bg-elevated);border:1px solid var(--line);border-radius:12px;padding:14px;margin:14px 0;}
+  .recipe-scaler label{font-size:.84rem;color:var(--cream-dim);}
+  .recipe-scaler input{width:100%;padding:11px 12px;border:1px solid var(--line);border-radius:8px;background:var(--bg-elevated-2);color:var(--cream);font:inherit;}
+  .recipe-quantities{color:var(--honey-light)!important;font-size:.85rem;margin-top:9px!important;}
+  .measurement-section{background:rgba(0,0,0,.12);border:1px solid var(--line);border-radius:10px;padding:10px 12px;margin:12px 0;}
+  .measurement-heading{font-size:.82rem;font-weight:700;color:var(--cream);margin-bottom:4px;}
+  .density-chart svg{display:block;width:100%;height:64px;overflow:visible;}
+  .chart-labels{display:flex;justify-content:space-between;color:var(--cream-dim);font-size:.68rem;}
+  .chart-empty{font-size:.76rem;margin:4px 0!important;}
+  .measurement-latest{font-size:.78rem;color:var(--cream-dim);margin-top:7px;}
+  .measurement-latest b{color:var(--honey-light);}
+
   /* lightbox for photo preview */
   #lightbox{position:fixed;inset:0;background:rgba(0,0,0,.85);display:none;align-items:center;justify-content:center;z-index:50;padding:20px;}
   #lightbox.open{display:flex;}
@@ -339,6 +352,11 @@
   <section class="view" id="view-recetas">
     <h1>Recetas</h1>
     <p>Elige una receta y pulsa <b style="color:var(--cream)">"Seguir este proceso"</b>: se crea un lote nuevo en <b style="color:var(--cream)">Mis lotes</b> con los 7 pasos de esa receta, para que puedas marcarlos e ir guardando tus propias fotos a medida que avanzas.</p>
+    <div class="recipe-scaler">
+      <label for="recipe-volume">Volumen objetivo de la receta (litros)</label>
+      <input type="number" id="recipe-volume" min="1" max="100" step="0.5" value="5" inputmode="decimal">
+      <p style="font-size:.78rem;margin:0">Las cantidades se escalan desde una receta base de 5 litros. Comprueba siempre la densidad inicial real.</p>
+    </div>
     <div id="recetas-list"></div>
   </section>
 
