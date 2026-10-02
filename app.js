@@ -209,6 +209,8 @@ function escapeHtml(str) {
 // ---------- Recetas: render + arrancar proceso ----------
 function renderRecetas() {
   const list = document.getElementById('recetas-list');
+  const targetLitres = Math.min(100, Math.max(1, parseFloat(document.getElementById('recipe-volume')?.value) || 5));
+  const scale = targetLitres / 5;
   list.innerHTML = RECETAS.map(r => `
     <div class="recipe">
       <div class="top-row">
@@ -216,6 +218,7 @@ function renderRecetas() {
           <span class="tag">${escapeHtml(r.nombre.includes('(') ? r.nombre.split('(')[1].replace(')', '') : 'Para empezar')}</span>
           <h3>${escapeHtml(r.nombre)}</h3>
           <p style="margin:2px 0 0">${escapeHtml(r.resumen)}</p>
+          <p class="recipe-quantities"><b>Para ${targetLitres} L:</b> ${(r.miel * scale).toFixed(2)} kg de miel · ${(r.agua * scale).toFixed(1)} L de agua</p>
         </div>
         <svg class="illus" viewBox="0 0 24 24" fill="none" stroke="var(--honey)" stroke-width="1.5">
           <path d="M12 3c3 3 5 6 5 9a5 5 0 0 1-10 0c0-3 2-6 5-9z"/>
@@ -236,6 +239,8 @@ function startReceta(id) {
   const receta = RECETAS.find(r => r.id === id);
   if (!receta) return;
   const lotes = loadLotes();
+  const targetLitres = Math.min(100, Math.max(1, parseFloat(document.getElementById('recipe-volume')?.value) || 5));
+  const scale = targetLitres / 5;
   const loteId = crypto.randomUUID();
   const n = lotes.filter(l => l.tipo === receta.tipo).length + 1;
   lotes.push({
@@ -243,8 +248,9 @@ function startReceta(id) {
     nombre: `${receta.nombre.split(' ')[0]}-${new Date().getFullYear()}-${String(n).padStart(2, '0')}`,
     fecha: new Date().toISOString().slice(0, 10),
     tipo: receta.tipo,
-    miel: receta.miel,
-    agua: receta.agua,
+    miel: Math.round(receta.miel * scale * 100) / 100,
+    agua: Math.round(receta.agua * scale * 10) / 10,
+    volumenObjetivo: targetLitres,
     levadura: '',
     og: '', sg: '',
     estado: 'Fermentando',
@@ -255,6 +261,22 @@ function startReceta(id) {
   renderDashboard();
   sessionStorage.setItem(OPEN_LOTE_KEY, loteId);
   location.hash = '#lotes';
+}
+
+function densityChart(mediciones) {
+  const values = (Array.isArray(mediciones) ? mediciones : [])
+    .filter(m => Number.isFinite(Number(m.densidad)) && Number(m.densidad) > 0)
+    .slice(-8);
+  if (values.length < 2) return '<p class="chart-empty">Añade al menos dos mediciones para ver la evolución de la densidad.</p>';
+  const nums = values.map(m => Number(m.densidad));
+  const min = Math.min(...nums) - 0.002, max = Math.max(...nums) + 0.002;
+  const span = Math.max(0.004, max - min);
+  const points = nums.map((v, i) => {
+    const x = 8 + i * (184 / (nums.length - 1));
+    const y = 54 - ((v - min) / span) * 42;
+    return `${x.toFixed(1)},${y.toFixed(1)}`;
+  }).join(' ');
+  return `<div class="density-chart"><svg viewBox="0 0 200 64" role="img" aria-label="Evolución de la densidad"><polyline points="${points}" fill="none" stroke="var(--honey)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>${points.split(' ').map(p => { const [x,y]=p.split(','); return `<circle cx="${x}" cy="${y}" r="3" fill="var(--honey-light)"/>`; }).join('')}</svg><div class="chart-labels"><span>Primera</span><span>Última</span></div></div>`;
 }
 
 // ---------- Render de la lista de lotes ----------
@@ -276,6 +298,7 @@ function renderLotes() {
     const pasos = lote.pasos && lote.pasos.length === 7 ? lote.pasos : emptyPasos();
     const done = pasos.filter(p => p.done).length;
     const abv = calcABV(parseFloat(lote.og), parseFloat(lote.sg));
+    const mediciones = Array.isArray(lote.mediciones) ? lote.mediciones : [];
     const isOpen = expandedSteps.has(lote.id);
 
     return `
@@ -292,12 +315,19 @@ function renderLotes() {
           <dt>OG / SG</dt><dd>${lote.og || '—'} / ${lote.sg || '—'}</dd>
           <dt>ABV estimado</dt><dd>${abv !== null ? abv + '%' : 'pendiente de SG'}</dd>
           ${lote.notas ? `<dt>Notas</dt><dd>${escapeHtml(lote.notas)}</dd>` : ''}
+          <dt>Mediciones</dt><dd>${mediciones.length} registro(s)</dd>
         </dl>
+        <div class="measurement-section">
+          <div class="measurement-heading">Evolución de densidad</div>
+          ${densityChart(mediciones)}
+          ${mediciones.length ? `<div class="measurement-latest">Última: <b>${Number(mediciones[mediciones.length - 1].densidad).toFixed(3)}</b> · ${fmtDate(mediciones[mediciones.length - 1].fecha)}</div>` : ''}
+        </div>
         <div class="progress-bar"><span style="width:${(done / 7) * 100}%"></span></div>
         <p style="font-size:.78rem;margin:2px 0 0">${done}/7 pasos</p>
 
         <div class="actions">
           <button class="btn small secondary" data-action="steps" data-id="${lote.id}">${isOpen ? 'Ocultar proceso' : 'Ver proceso'}</button>
+          <button class="btn small secondary" data-action="measurement" data-id="${lote.id}">+ Medición</button>
           <button class="btn small secondary" data-action="edit" data-id="${lote.id}">Editar datos</button>
           <button class="btn small danger" data-action="delete" data-id="${lote.id}">Eliminar</button>
         </div>
@@ -411,6 +441,27 @@ document.getElementById('lotes-list').addEventListener('click', (e) => {
   if (action === 'steps') {
     if (expandedSteps.has(id)) expandedSteps.delete(id); else expandedSteps.add(id);
     renderLotes();
+  } else if (action === 'measurement') {
+    const rawDensity = prompt('Densidad medida (por ejemplo, 1.025):');
+    if (rawDensity === null) return;
+    const density = Number(rawDensity);
+    if (!Number.isFinite(density) || density < 0.8 || density > 1.3) {
+      alert('Introduce una densidad válida entre 0.800 y 1.300.');
+      return;
+    }
+    const rawTemp = prompt('Temperatura en °C (opcional):', '');
+    if (rawTemp === null) return;
+    const temp = rawTemp.trim() === '' ? '' : Number(rawTemp);
+    if (temp !== '' && (!Number.isFinite(temp) || temp < -5 || temp > 60)) {
+      alert('Introduce una temperatura válida entre -5 y 60 °C.');
+      return;
+    }
+    const note = prompt('Observaciones (opcional):', '') ?? '';
+    lote.mediciones = Array.isArray(lote.mediciones) ? lote.mediciones : [];
+    lote.mediciones.push({ fecha: new Date().toISOString().slice(0, 10), densidad: Math.round(density * 1000) / 1000, temperatura: temp, nota: note.trim() });
+    saveLotes(lotes);
+    renderLotes();
+    renderDashboard();
   } else if (action === 'edit') {
     openForm(lote);
   } else if (action === 'delete') {
@@ -467,6 +518,8 @@ form.addEventListener('submit', (e) => {
     estado: document.getElementById('f-estado').value,
     notas: document.getElementById('f-notas').value.trim(),
     pasos: existing && existing.pasos ? existing.pasos : emptyPasos(),
+    mediciones: existing && Array.isArray(existing.mediciones) ? existing.mediciones : [],
+    volumenObjetivo: existing && existing.volumenObjetivo ? existing.volumenObjetivo : '',
   };
   const idx = lotes.findIndex(l => l.id === id);
   if (idx >= 0) lotes[idx] = data; else lotes.push(data);
@@ -574,6 +627,7 @@ function renderDashboard() {
 // ---------- Init ----------
 renderRoute();
 renderRecetas();
+document.getElementById('recipe-volume')?.addEventListener('input', renderRecetas);
 renderLotes();
 renderDashboard();
 
