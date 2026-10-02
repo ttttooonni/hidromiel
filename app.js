@@ -1048,7 +1048,7 @@ function renderDashboard() {
     </div>
     <div class="dashboard-recent">
       <div class="dashboard-heading">Tus últimas elaboraciones</div>
-      ${recent.length ? recent.map(l => `<div class="dashboard-lote"><span><b>${escapeHtml(l.nombre || 'Sin nombre')}</b><small>${escapeHtml(l.tipo || 'Sin tipo')} · ${fmtDate(l.fecha)}</small></span><span class="dash-status">${escapeHtml(l.estado || 'Fermentando')}</span></div>`).join('') : '<p class="dash-empty">Aquí aparecerán tus lotes cuando registres el primero.</p>'}
+      ${recent.length ? recent.map(l => `<div class="dashboard-lote"><span><b>${escapeHtml(l.nombre || 'Sin nombre')}</b><small>${escapeHtml(l.tipo || 'Sin tipo')} · ${fmtDate(l.fecha)}</small></span><span class="dash-status">${escapeHtml(l.estado || 'Fermentando')}</span></div>`).join('') : '<p class="dash-empty">Aún no tienes lotes. Crea el primero en Mis lotes</p>'}
     </div>
     <div class="btn-row dashboard-actions">
       <button class="btn small" id="dash-new-lote">+ Crear lote</button>
