@@ -11,6 +11,8 @@ Este archivo resume los cambios documentados de la aplicación. La etiqueta V1 i
 - Documentado que la caché técnica actual identificada en sw.js es v9.
 - Documentados el catálogo de 22 recetas, la gestión de lotes, las fotografías y el uso offline.
 - Añadidas precauciones de copia de seguridad y de elaboración responsable.
+- Ampliada la sección Consejos con preparación, control de fermentación, nutrientes, oxígeno, trasiego, embotellado seguro, especias y resolución de problemas.
+- Actualizada la caché offline a v10 para distribuir los nuevos contenidos.
 
 ## Funciones descritas en la línea V1
 
