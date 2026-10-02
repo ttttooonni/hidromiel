@@ -1,76 +1,72 @@
-# Hidromiel — guía y cuaderno de lotes
+# Hidromiel — V1
 
-PWA de una sola vista con navegación por pestañas (hash routing): Inicio, Tutorial, Recetas, Consejos y Mis lotes. Sin build, sin dependencias externas, funciona offline una vez cargada la primera vez.
+**Estado:** primera versión documental consolidada  
+**Tipo:** aplicación web progresiva (PWA), local-first y sin backend  
+**Publicación:** https://ttttooonni.github.io/hidromiel/  
+**Repositorio:** https://github.com/ttttooonni/hidromiel
 
-## Estructura
+Hidromiel V1 reúne una guía de elaboración, un catálogo de recetas y un cuaderno para registrar lotes. Está diseñada para utilizarse desde el móvil o el ordenador y puede funcionar sin conexión después de cargar sus recursos.
 
-```
-index.html      → estructura + estilos + contenido (tutorial, recetas, consejos)
-app.js          → routing, CRUD de lotes en localStorage, cálculo de ABV, export/import
-manifest.json   → metadatos de instalación
-sw.js           → cache offline versionada
-icons/          → iconos de la PWA
-.nojekyll       → evita que GitHub Pages ignore archivos con "_"
-```
+> **Importante sobre las versiones:** V1 es la versión documental y funcional de referencia del proyecto. El número v9 de sw.js identifica únicamente la caché del service worker; no es el número de versión funcional de la aplicación.
 
-## Desplegar en GitHub Pages
+## Funciones incluidas
 
-1. Sube esta carpeta a un repo (rama `main`).
-2. Activa GitHub Pages apuntando a la raíz de `main`.
-3. Listo — la app carga en `https://<usuario>.github.io/<repo>/`.
+- Inicio con resumen y acceso a las secciones.
+- Tutorial de elaboración paso a paso.
+- Catálogo de 22 recetas orientativas, con selector de volumen y levadura sugerida.
+- Consejos de elaboración y consulta de problemas habituales.
+- Creación y seguimiento de lotes mediante siete etapas.
+- Registro de densidades y datos de fermentación disponibles en la ficha del lote.
+- Fotografías del proceso almacenadas en el dispositivo.
+- Exportación e importación de copias de seguridad, incluidas las fotos en el formato compatible actual.
+- Instalación como PWA y uso offline después de la primera carga.
 
-## Cómo subir de versión (importante)
+Consulta la [guía de usuario V1](docs/GUIA_USUARIO_V1.md), la [documentación técnica V1](docs/DOCUMENTACION_TECNICA_V1.md) y el [registro de cambios](CHANGELOG.md).
 
-Cada vez que cambies `index.html`, `app.js`, `manifest.json` o los iconos:
+## Estructura del repositorio
 
-1. Abre `sw.js`.
-2. Sube el número de `VERSION` (`'v1'` → `'v2'`, etc.).
-3. Haz commit y push.
+    index.html                        Interfaz, estilos y contenido de la guía
+    app.js                            Lógica, recetas, lotes y copias de seguridad
+    manifest.json                    Metadatos de instalación de la PWA
+    sw.js                             Caché y funcionamiento offline
+    icons/icon.svg                    Icono vectorial de la PWA
+    docs/GUIA_USUARIO_V1.md           Manual de uso
+    docs/DOCUMENTACION_TECNICA_V1.md  Arquitectura, datos y mantenimiento
+    CHANGELOG.md                      Historial de cambios documentados
+    README.md                         Presentación general del proyecto
 
-Al cambiar `VERSION`, el service worker crea una cache nueva, copia los archivos actualizados y borra las cachés viejas — así quien tenga la app instalada recibe la versión nueva automáticamente, sin perder sus lotes guardados (los lotes viven en `localStorage`, no en la cache del service worker).
+## Privacidad y almacenamiento
 
-Si **no** subes `VERSION`, los usuarios seguirán viendo la versión antigua cacheada.
+La aplicación no necesita una cuenta ni un servidor para guardar los datos. Los registros permanecen en el navegador del dispositivo:
 
-## Datos de los lotes y fotos
+- Los datos de lotes se guardan en localStorage, clave hidromiel_lotes_v2.
+- Las fotos se guardan en IndexedDB, base hidromiel-db, almacén fotos.
+- No hay sincronización automática entre dispositivos. Para trasladar los datos, utiliza la copia de seguridad de la aplicación.
+- Antes de borrar los datos del navegador, desinstalar el navegador o cambiar de dispositivo, crea una copia y comprueba que puedes importarla.
 
-- Los **datos** de cada lote (fecha, receta, densidades, pasos marcados, notas) se guardan en `localStorage` bajo la clave `hidromiel_lotes_v2`.
-- Las **fotos** del proceso se guardan aparte, en IndexedDB (`hidromiel-db` / almacén `fotos`), porque localStorage no aguanta bien datos binarios grandes. Cada foto se redimensiona a 1000px de lado máximo y se comprime a JPEG antes de guardarse, para no llenar el dispositivo.
-- **Exportar/Importar JSON** solo mueve los datos del lote, no las fotos — las fotos son propias de cada dispositivo. Si cambias de móvil, tendrás que volver a añadirlas.
-- Todo vive en el dispositivo — no hay servidor ni sincronización, igual que el resto de tus apps.
+El nombre histórico de la clave de almacenamiento no determina la versión de la aplicación. No lo cambies sin una migración explícita, porque podrías dejar de encontrar los lotes existentes.
 
-## Recetas guiadas
+## Publicación en GitHub Pages
 
-Cada receta en la pestaña "Recetas" tiene sus propios 7 pasos (`RECETAS` en `app.js`). Al pulsar "Seguir este proceso" se crea un lote nuevo con esos pasos vacíos, y te lleva directo a "Mis lotes" con el proceso abierto para que vayas marcando pasos y adjuntando fotos.
+El sitio se publica desde la rama main y la raíz del repositorio. Tras un cambio de recursos, revisa sw.js y aumenta VERSION para renovar la caché de la PWA. La versión de caché puede avanzar independientemente de la versión documental V1.
 
-## Sobre las imágenes
+## Elaboración responsable
 
-Las ilustraciones genéricas (iconos, gotas) son propias, en SVG, para no depender de fotos de stock de terceros sin licencia clara. Si quieres fotos reales en las secciones de Tutorial/Recetas, la vía correcta es usar imágenes con licencia libre (Pexels, Unsplash, Pixabay) y añadirlas tú a mano en `index.html`, o mejor aún, tus propias fotos del proceso.
+Las cantidades, temperaturas y levaduras de las recetas son orientativas. Mide la densidad real del mosto, controla la fermentación y sigue las instrucciones del fabricante de cada levadura y nutriente. No embotelles mientras la fermentación siga activa o la densidad no esté estable. La aplicación es un cuaderno de apoyo y no sustituye las prácticas higiénicas ni las comprobaciones del elaborador.
 
-## Pendiente para próximas versiones
+## Alcance y limitaciones conocidas
 
-- Si se quiere sincronizar entre dispositivos (datos y fotos), habría que añadir backend — de momento es intencionadamente local.
+- Los datos se guardan localmente y dependen del navegador y dispositivo.
+- No existe cuenta de usuario ni sincronización remota.
+- La disponibilidad offline depende de que la PWA se haya cargado y almacenado correctamente al menos una vez.
+- La guía no sustituye las fichas técnicas de ingredientes, levaduras o productos de limpieza.
 
+## Mantenimiento
 
-## Hidromiel 2.0 — actualización inicial
-
-- Panel de inicio con resumen de lotes activos, pasos pendientes y elaboraciones recientes.
-- Escalador de recetas por volumen objetivo, calculado desde la base de 5 litros.
-- Registro de mediciones de densidad y gráfica de evolución en cada lote.
-- Copias de seguridad JSON que incluyen las fotografías almacenadas en IndexedDB.
-- Importación validada y compatible con exportaciones antiguas en formato de array.
-- Estimación de ABV validada para evitar resultados absurdos con densidades inválidas.
-- Manifiesto de instalación e icono SVG añadidos para completar los recursos referenciados por la PWA.
-- Caché offline incrementada a `v5`.
-
-La aplicación continúa siendo local-first: los datos permanecen en el dispositivo y no se sincronizan automáticamente entre dispositivos.
-
-
-## Catálogo ampliado de recetas y levaduras
-
-La biblioteca de la PWA incluye 22 fórmulas orientativas: tradicionales de distintos perfiles, hydromel ligero, alta densidad, melomeles de frutas, cyser, pyment, metheglin, bochet, bochetomel, braggot, hidromiel lupulada, café/cacao y roble.
-
-Cada ficha muestra cantidades base de miel y agua para 5 L, ingrediente o técnica complementaria, dificultad, temperatura orientativa y una levadura sugerida. El selector de volumen escala miel y agua; las cantidades de frutas, especias y otros complementos se muestran como referencia por 5 L y deben escalarse proporcionalmente. La densidad real del mosto debe medirse siempre.
-
-El formulario de lotes incluye un catálogo de levaduras enológicas y específicas para hidromiel: Lalvin EC-1118, 71B, K1-V1116, QA23, ICV-D47, SafMead Classic y SafMead Twist; también SafAle US-05 para estilos híbridos como braggot. La ficha del fabricante vigente prevalece sobre cualquier recomendación general de la aplicación.
-
-La PWA continúa sin backend, con almacenamiento local y funcionamiento offline. Caché actual: `v7`.
+Antes de publicar cambios:
+1. Comprueba las pantallas principales en móvil y escritorio.
+2. Crea una copia de seguridad de los datos de prueba y verifica la importación.
+3. Comprueba que las fotos se conservan al exportar e importar una copia compatible.
+4. Valida el JSON de manifest.json y los archivos del service worker.
+5. Incrementa la versión de caché de sw.js cuando cambien los recursos cacheados.
+6. Actualiza CHANGELOG.md y la documentación si cambia el comportamiento de la aplicación.
