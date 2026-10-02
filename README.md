@@ -63,3 +63,14 @@ Las ilustraciones genéricas (iconos, gotas) son propias, en SVG, para no depend
 - Caché offline incrementada a `v5`.
 
 La aplicación continúa siendo local-first: los datos permanecen en el dispositivo y no se sincronizan automáticamente entre dispositivos.
+
+
+## Catálogo ampliado de recetas y levaduras
+
+La biblioteca de la PWA incluye 22 fórmulas orientativas: tradicionales de distintos perfiles, hydromel ligero, alta densidad, melomeles de frutas, cyser, pyment, metheglin, bochet, bochetomel, braggot, hidromiel lupulada, café/cacao y roble.
+
+Cada ficha muestra cantidades base de miel y agua para 5 L, ingrediente o técnica complementaria, dificultad, temperatura orientativa y una levadura sugerida. El selector de volumen escala miel y agua; las cantidades de frutas, especias y otros complementos se muestran como referencia por 5 L y deben escalarse proporcionalmente. La densidad real del mosto debe medirse siempre.
+
+El formulario de lotes incluye un catálogo de levaduras enológicas y específicas para hidromiel: Lalvin EC-1118, 71B, K1-V1116, QA23, ICV-D47, SafMead Classic y SafMead Twist; también SafAle US-05 para estilos híbridos como braggot. La ficha del fabricante vigente prevalece sobre cualquier recomendación general de la aplicación.
+
+La PWA continúa sin backend, con almacenamiento local y funcionamiento offline. Caché actual: `v7`.
