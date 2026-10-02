@@ -666,7 +666,7 @@ function startReceta(id) {
     miel: Math.round(receta.miel * scale * 100) / 100,
     agua: Math.round(receta.agua * scale * 10) / 10,
     volumenObjetivo: targetLitres,
-    levadura: receta.levadura,
+    levadura: ({'EC-1118':'Lalvin EC-1118','71B':'Lalvin 71B','K1-V1116':'Lalvin K1-V1116','QA23':'Lalvin QA23','D-47':'Lalvin ICV-D47','SafMead Classic':'SafMead Classic','SafMead Twist':'SafMead Twist','SafAle US-05':'SafAle US-05'})[receta.levadura] || receta.levadura,
     og: '', sg: '',
     estado: 'Fermentando',
     notas: '',
@@ -886,6 +886,7 @@ function openForm(lote) {
   document.getElementById('f-miel').value = lote ? lote.miel : '';
   document.getElementById('f-agua').value = lote ? lote.agua : '';
   document.getElementById('f-levadura').value = lote ? lote.levadura : '';
+  updateYeastGuidance();
   document.getElementById('f-og').value = lote ? lote.og : '';
   document.getElementById('f-sg').value = lote ? lote.sg : '';
   document.getElementById('f-estado').value = lote ? lote.estado : 'Fermentando';
