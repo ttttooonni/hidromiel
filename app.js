@@ -442,26 +442,7 @@ document.getElementById('lotes-list').addEventListener('click', (e) => {
     if (expandedSteps.has(id)) expandedSteps.delete(id); else expandedSteps.add(id);
     renderLotes();
   } else if (action === 'measurement') {
-    const rawDensity = prompt('Densidad medida (por ejemplo, 1.025):');
-    if (rawDensity === null) return;
-    const density = Number(rawDensity);
-    if (!Number.isFinite(density) || density < 0.8 || density > 1.3) {
-      alert('Introduce una densidad válida entre 0.800 y 1.300.');
-      return;
-    }
-    const rawTemp = prompt('Temperatura en °C (opcional):', '');
-    if (rawTemp === null) return;
-    const temp = rawTemp.trim() === '' ? '' : Number(rawTemp);
-    if (temp !== '' && (!Number.isFinite(temp) || temp < -5 || temp > 60)) {
-      alert('Introduce una temperatura válida entre -5 y 60 °C.');
-      return;
-    }
-    const note = prompt('Observaciones (opcional):', '') ?? '';
-    lote.mediciones = Array.isArray(lote.mediciones) ? lote.mediciones : [];
-    lote.mediciones.push({ fecha: new Date().toISOString().slice(0, 10), densidad: Math.round(density * 1000) / 1000, temperatura: temp, nota: note.trim() });
-    saveLotes(lotes);
-    renderLotes();
-    renderDashboard();
+    openMeasurementForm(id);
   } else if (action === 'edit') {
     openForm(lote);
   } else if (action === 'delete') {
@@ -499,6 +480,13 @@ function openForm(lote) {
 function closeForm() { form.style.display = 'none'; form.reset(); }
 btnNew.addEventListener('click', () => openForm(null));
 btnCancel.addEventListener('click', closeForm);
+document.getElementById('f-tipo')?.addEventListener('change', e => {
+  const receta = RECETAS.find(r => r.tipo === e.target.value);
+  if (!receta) return; // En "Otra", conservar las cantidades introducidas.
+  document.getElementById('f-miel').value = receta.miel;
+  document.getElementById('f-agua').value = receta.agua;
+});
+
 
 form.addEventListener('submit', (e) => {
   e.preventDefault();
@@ -623,6 +611,51 @@ function renderDashboard() {
   if (create) create.addEventListener('click', () => { location.hash = '#lotes'; setTimeout(() => openForm(null), 80); });
   if (open) open.addEventListener('click', () => { location.hash = '#lotes'; });
 }
+
+function openMeasurementForm(loteId) {
+  const modal = document.getElementById('measurement-modal');
+  const formEl = document.getElementById('measurement-form');
+  if (!modal || !formEl) return;
+  formEl.reset();
+  document.getElementById('measurement-lote-id').value = loteId;
+  modal.classList.add('open');
+  modal.setAttribute('aria-hidden', 'false');
+  document.getElementById('measurement-density').focus();
+}
+function closeMeasurementForm() {
+  const modal = document.getElementById('measurement-modal');
+  if (!modal) return;
+  modal.classList.remove('open');
+  modal.setAttribute('aria-hidden', 'true');
+}
+document.getElementById('measurement-cancel')?.addEventListener('click', closeMeasurementForm);
+document.getElementById('measurement-modal')?.addEventListener('click', e => {
+  if (e.target.id === 'measurement-modal') closeMeasurementForm();
+});
+document.getElementById('measurement-form')?.addEventListener('submit', e => {
+  e.preventDefault();
+  const density = Number(document.getElementById('measurement-density').value);
+  const rawTemp = document.getElementById('measurement-temperature').value.trim();
+  const temp = rawTemp === '' ? '' : Number(rawTemp);
+  const note = document.getElementById('measurement-note').value.trim();
+  if (!Number.isFinite(density) || density < 0.8 || density > 1.3) {
+    alert('Introduce una densidad válida entre 0.800 y 1.300.');
+    return;
+  }
+  if (temp !== '' && (!Number.isFinite(temp) || temp < -5 || temp > 60)) {
+    alert('Introduce una temperatura válida entre -5 y 60 °C.');
+    return;
+  }
+  const lotes = loadLotes();
+  const lote = lotes.find(l => l.id === document.getElementById('measurement-lote-id').value);
+  if (!lote) { closeMeasurementForm(); return; }
+  lote.mediciones = Array.isArray(lote.mediciones) ? lote.mediciones : [];
+  lote.mediciones.push({ fecha: new Date().toISOString().slice(0, 10), densidad: Math.round(density * 1000) / 1000, temperatura: temp, nota: note });
+  saveLotes(lotes);
+  closeMeasurementForm();
+  renderLotes();
+  renderDashboard();
+});
 
 // ---------- Init ----------
 renderRoute();
