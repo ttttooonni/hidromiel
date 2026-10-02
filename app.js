@@ -138,6 +138,21 @@ async function deletePhoto(key) {
     tx.onerror = () => rej(tx.error);
   });
 }
+async function getAllPhotos() {
+  const db = await openDB();
+  return new Promise((res, rej) => {
+    const tx = db.transaction(STORE, 'readonly');
+    const store = tx.objectStore(STORE);
+    const keysReq = store.getAllKeys();
+    const valuesReq = store.getAll();
+    tx.oncomplete = () => {
+      const photos = {};
+      keysReq.result.forEach((key, i) => { photos[String(key)] = valuesReq.result[i]; });
+      res(photos);
+    };
+    tx.onerror = () => rej(tx.error);
+  });
+}
 // Redimensiona/comprime la foto antes de guardarla (los móviles hacen fotos enormes)
 function resizeImage(file, maxDim = 1000, quality = 0.82) {
   return new Promise((resolve, reject) => {
@@ -169,8 +184,11 @@ function loadLotes() {
 function saveLotes(lotes) { localStorage.setItem(STORAGE_KEY, JSON.stringify(lotes)); }
 
 function calcABV(og, sg) {
-  if (!og || !sg) return null;
-  return Math.round((og - sg) * 131.25 * 10) / 10;
+  if (!Number.isFinite(og) || !Number.isFinite(sg) || og <= 0 || sg <= 0 || og <= sg) return null;
+  // Estimación habitual; no sustituye un análisis de laboratorio.
+  const abv = (og - sg) * 131.25;
+  if (!Number.isFinite(abv) || abv < 0 || abv > 25) return null;
+  return Math.round(abv * 10) / 10;
 }
 function fmtDate(iso) {
   if (!iso) return '—';
@@ -348,6 +366,7 @@ function renderStepsPanel(loteId) {
       l.pasos[i].fecha = l.pasos[i].done ? new Date().toISOString().slice(0, 10) : null;
       saveLotes(lotes2);
       renderLotes();
+      renderDashboard();
       expandedSteps.add(loteId);
       renderStepsPanel(loteId);
       const p = document.querySelector(`[data-panel="${loteId}"]`);
@@ -452,46 +471,109 @@ form.addEventListener('submit', (e) => {
   saveLotes(lotes);
   closeForm();
   renderLotes();
+  renderDashboard();
 });
 
 // ---------- Exportar / Importar JSON (solo datos, no fotos) ----------
-document.getElementById('btn-export').addEventListener('click', () => {
-  const data = JSON.stringify(loadLotes(), null, 2);
-  const blob = new Blob([data], { type: 'application/json' });
-  const url = URL.createObjectURL(blob);
-  const a = document.createElement('a');
-  a.href = url;
-  a.download = `hidromiel-lotes-${new Date().toISOString().slice(0, 10)}.json`;
-  a.click();
-  URL.revokeObjectURL(url);
+document.getElementById('btn-export').addEventListener('click', async () => {
+  const button = document.getElementById('btn-export');
+  button.disabled = true;
+  button.textContent = 'Preparando copia…';
+  try {
+    const backup = {
+      format: 'hidromiel-backup',
+      schemaVersion: 2,
+      exportedAt: new Date().toISOString(),
+      lotes: loadLotes(),
+      fotos: await getAllPhotos(),
+    };
+    const blob = new Blob([JSON.stringify(backup, null, 2)], { type: 'application/json' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `hidromiel-copia-${new Date().toISOString().slice(0, 10)}.json`;
+    a.click();
+    setTimeout(() => URL.revokeObjectURL(url), 1000);
+  } catch (err) {
+    alert('No se pudo crear la copia: ' + err.message);
+  } finally {
+    button.disabled = false;
+    button.textContent = 'Exportar copia completa';
+  }
 });
 
 document.getElementById('input-import').addEventListener('change', (e) => {
   const file = e.target.files[0];
   if (!file) return;
   const reader = new FileReader();
-  reader.onload = () => {
+  reader.onload = async () => {
     try {
-      const imported = JSON.parse(reader.result);
-      if (!Array.isArray(imported)) throw new Error('Formato inválido');
+      const parsed = JSON.parse(reader.result);
+      const isLegacy = Array.isArray(parsed);
+      const imported = isLegacy ? parsed : parsed && parsed.format === 'hidromiel-backup' && Array.isArray(parsed.lotes) ? parsed.lotes : null;
+      if (!imported) throw new Error('Formato no reconocido. Selecciona una copia JSON de Hidromiel.');
+      const valid = imported.filter(l => l && typeof l === 'object' && typeof l.id === 'string' && l.id.length > 0);
+      if (valid.length !== imported.length) throw new Error('La copia contiene lotes inválidos. No se han importado datos.');
       const existing = loadLotes();
       const existingIds = new Set(existing.map(l => l.id));
-      const merged = existing.concat(imported.filter(l => !existingIds.has(l.id)));
-      saveLotes(merged);
+      const toAdd = valid.filter(l => !existingIds.has(l.id));
+      saveLotes(existing.concat(toAdd));
+      let photosImported = 0;
+      if (!isLegacy && parsed.fotos && typeof parsed.fotos === 'object') {
+        for (const [key, value] of Object.entries(parsed.fotos)) {
+          if (typeof key === 'string' && typeof value === 'string' && value.startsWith('data:image/')) {
+            await savePhoto(key, value);
+            photosImported++;
+          }
+        }
+      }
       renderLotes();
-      alert(`Importados ${imported.length} lote(s).`);
+      renderDashboard();
+      alert(`Copia restaurada. Lotes nuevos: ${toAdd.length}.${isLegacy ? ' Este JSON antiguo no incluye fotografías.' : ' Fotografías recuperadas: ' + photosImported + '.'}`);
     } catch (err) {
-      alert('No se pudo importar el archivo: ' + err.message);
+      alert('No se pudo importar la copia: ' + err.message);
+    } finally {
+      e.target.value = '';
     }
   };
   reader.readAsText(file);
-  e.target.value = '';
 });
+
+// ---------- Panel de inicio ----------
+function renderDashboard() {
+  const target = document.getElementById('dashboard-summary');
+  if (!target) return;
+  const lotes = loadLotes();
+  const active = lotes.filter(l => !['Consumido', 'Embotellado'].includes(l.estado));
+  const pending = active.reduce((sum, l) => {
+    const steps = Array.isArray(l.pasos) ? l.pasos : [];
+    return sum + Math.max(0, 7 - steps.filter(p => p && p.done).length);
+  }, 0);
+  const recent = [...lotes].sort((a, b) => (b.fecha || '').localeCompare(a.fecha || '')).slice(0, 3);
+  target.innerHTML = `
+    <div class="dashboard-grid">
+      <div class="dashboard-card"><span class="dash-label">Lotes en curso</span><strong>${active.length}</strong><span class="dash-hint">Elaboraciones no cerradas</span></div>
+      <div class="dashboard-card"><span class="dash-label">Pasos pendientes</span><strong>${pending}</strong><span class="dash-hint">En los lotes activos</span></div>
+    </div>
+    <div class="dashboard-recent">
+      <div class="dashboard-heading">Tus últimas elaboraciones</div>
+      ${recent.length ? recent.map(l => `<div class="dashboard-lote"><span><b>${escapeHtml(l.nombre || 'Sin nombre')}</b><small>${escapeHtml(l.tipo || 'Sin tipo')} · ${fmtDate(l.fecha)}</small></span><span class="dash-status">${escapeHtml(l.estado || 'Fermentando')}</span></div>`).join('') : '<p class="dash-empty">Aquí aparecerán tus lotes cuando registres el primero.</p>'}
+    </div>
+    <div class="btn-row dashboard-actions">
+      <button class="btn small" id="dash-new-lote">+ Crear lote</button>
+      <button class="btn small secondary" id="dash-open-lotes">Ver mis lotes</button>
+    </div>`;
+  const create = document.getElementById('dash-new-lote');
+  const open = document.getElementById('dash-open-lotes');
+  if (create) create.addEventListener('click', () => { location.hash = '#lotes'; setTimeout(() => openForm(null), 80); });
+  if (open) open.addEventListener('click', () => { location.hash = '#lotes'; });
+}
 
 // ---------- Init ----------
 renderRoute();
 renderRecetas();
 renderLotes();
+renderDashboard();
 
 if ('serviceWorker' in navigator) {
   window.addEventListener('load', () => {
