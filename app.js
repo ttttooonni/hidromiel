@@ -252,6 +252,7 @@ function startReceta(id) {
     pasos: emptyPasos(),
   });
   saveLotes(lotes);
+  renderDashboard();
   sessionStorage.setItem(OPEN_LOTE_KEY, loteId);
   location.hash = '#lotes';
 }
@@ -419,6 +420,7 @@ document.getElementById('lotes-list').addEventListener('click', (e) => {
       expandedSteps.delete(id);
       for (let i = 0; i < 7; i++) deletePhoto(`${id}_${i}`).catch(() => {});
       renderLotes();
+      renderDashboard();
     }
   }
 });
