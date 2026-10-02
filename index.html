@@ -201,6 +201,11 @@
   @media(min-width:560px){.dashboard-shell{padding:20px}.dashboard-card{padding:16px}}
 
 
+
+  .recipe-detail{font-size:.82rem;line-height:1.45;margin:8px 0 0;color:var(--cream-dim);}
+  .recipe-detail b{color:var(--cream);}
+  .yeast-guidance{font-size:.78rem;line-height:1.45;color:var(--cream-dim);margin:5px 0 0;}
+
   .recipe-scaler{display:grid;grid-template-columns:1fr;gap:6px;background:var(--bg-elevated);border:1px solid var(--line);border-radius:12px;padding:14px;margin:14px 0;}
   .recipe-scaler label{font-size:.84rem;color:var(--cream-dim);}
   .recipe-scaler input{width:100%;padding:11px 12px;border:1px solid var(--line);border-radius:8px;background:var(--bg-elevated-2);color:var(--cream);font:inherit;}
@@ -450,7 +455,11 @@
       </div>
       <div>
         <label for="f-levadura">Levadura</label>
-        <input type="text" id="f-levadura" placeholder="p. ej. Lalvin D-47">
+        <select id="f-levadura">
+            <option value="">Selecciona una levadura</option>
+            <option>Lalvin EC-1118</option><option>Lalvin 71B</option><option>Lalvin K1-V1116</option><option>Lalvin QA23</option><option>Lalvin ICV-D47</option><option>SafMead Classic</option><option>SafMead Twist</option><option>SafAle US-05</option><option>Otra / no especificada</option>
+          </select>
+          <p id="yeast-guidance" class="yeast-guidance">Consulta la ficha del fabricante para confirmar dosis, temperatura y tolerancia alcohólica.</p>
       </div>
       <div class="row2">
         <div>
