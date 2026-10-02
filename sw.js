@@ -1,7 +1,7 @@
 // Sube este número cada vez que cambies index.html, app.js o los iconos.
 // Al cambiar, se crea una cache nueva y se borran las antiguas: así los usuarios
 // reciben la versión nueva sin tener que borrar datos ni desinstalar nada.
-const VERSION = 'v16';
+const VERSION = 'v17';
 const CACHE_NAME = `hidromiel-${VERSION}`;
 
 const ASSETS = [
@@ -17,7 +17,6 @@ const ASSETS = [
   './images/measurements.svg',
   './images/tips.svg',
   './images/tasting.svg',
-  './images/hero.svg',
 ];
 
 self.addEventListener('install', (event) => {
