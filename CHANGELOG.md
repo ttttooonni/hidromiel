@@ -26,3 +26,10 @@ Este archivo resume los cambios documentados de la aplicación. La etiqueta V1 i
 ## Nota de verificación
 
 El registro describe los archivos y el alcance documental revisados. No sustituye una prueba funcional completa en navegador; las comprobaciones de publicación deben ejecutarse siguiendo la lista de la documentación técnica.
+
+
+## Actualización visual — v13
+
+- Fotografía diferenciada en portada, Tutorial, Recetas, Consejos y Mis lotes.
+- Ajustes del manifiesto PWA y actualización de la caché a v13.
+- Las fotografías proceden de servicios externos y se almacenan en caché tras cargarse; no se consideran archivos locales del repositorio.
