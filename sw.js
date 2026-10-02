@@ -1,7 +1,7 @@
 // Sube este número cada vez que cambies index.html, app.js o los iconos.
 // Al cambiar, se crea una cache nueva y se borran las antiguas: así los usuarios
 // reciben la versión nueva sin tener que borrar datos ni desinstalar nada.
-const VERSION = 'v11';
+const VERSION = 'v12';
 const CACHE_NAME = `hidromiel-${VERSION}`;
 
 const ASSETS = [
