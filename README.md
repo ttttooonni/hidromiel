@@ -14,7 +14,7 @@ Hidromiel V1 reúne una guía de elaboración, un catálogo de recetas y un cuad
 - Inicio con resumen y acceso a las secciones.
 - Tutorial de elaboración paso a paso.
 - Catálogo de 22 recetas orientativas, con selector de volumen y levadura sugerida.
-- Consejos de elaboración y consulta de problemas habituales.
+- Consejos ampliados para preparación, fermentación, solución de problemas, trasiego, embotellado y cata.
 - Creación y seguimiento de lotes mediante siete etapas.
 - Registro de densidades y datos de fermentación disponibles en la ficha del lote.
 - Fotografías del proceso almacenadas en el dispositivo.
