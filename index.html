@@ -179,6 +179,27 @@
 
   footer.note{color:var(--cream-dim);font-size:.8rem;padding:20px 4px 8px;border-top:1px solid var(--line);margin-top:24px;}
 
+
+  /* --- Hidromiel 2.0: panel de control --- */
+  .dashboard-shell{margin:18px 0 24px;padding:16px;background:linear-gradient(145deg,#2e2114,#241b12);border:1px solid var(--line);border-radius:16px;}
+  .dashboard-shell h2{margin:0 0 5px;font-size:1.35rem;}
+  .dashboard-intro{font-size:.88rem;margin:0 0 14px;}
+  .dashboard-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;margin:12px 0;}
+  .dashboard-card{min-width:0;background:rgba(0,0,0,.16);border:1px solid var(--line);border-radius:12px;padding:13px;}
+  .dash-label,.dash-hint{display:block;color:var(--cream-dim);font-size:.76rem;}
+  .dashboard-card strong{display:block;color:var(--honey-light);font-size:2rem;line-height:1.25;font-family:var(--serif);margin:4px 0;}
+  .dash-hint{font-size:.7rem;}
+  .dashboard-recent{margin-top:16px;}
+  .dashboard-heading{font-weight:700;color:var(--cream);margin-bottom:8px;}
+  .dashboard-lote{display:flex;justify-content:space-between;align-items:center;gap:10px;padding:11px 0;border-top:1px solid var(--line);}
+  .dashboard-lote b{display:block;color:var(--cream);font-size:.9rem;}
+  .dashboard-lote small{display:block;color:var(--cream-dim);font-size:.75rem;margin-top:2px;}
+  .dash-status{font-size:.7rem;color:var(--honey-light);border:1px solid var(--line);border-radius:999px;padding:4px 8px;white-space:nowrap;}
+  .dash-empty{font-size:.85rem;padding:8px 0;}
+  .dashboard-actions{margin-top:14px;}
+  .btn:disabled{opacity:.65;cursor:wait;}
+  @media(min-width:560px){.dashboard-shell{padding:20px}.dashboard-card{padding:16px}}
+
   /* lightbox for photo preview */
   #lightbox{position:fixed;inset:0;background:rgba(0,0,0,.85);display:none;align-items:center;justify-content:center;z-index:50;padding:20px;}
   #lightbox.open{display:flex;}
@@ -195,6 +216,14 @@
       <div class="drop-icon"></div>
       <h1>Hidromiel</h1>
       <p class="lede">La guía que te habría gustado tener el primer día.</p>
+    </div>
+
+    <div class="dashboard-shell">
+      <h2>Tu bodega, de un vistazo</h2>
+      <p class="dashboard-intro">Controla tus elaboraciones, consulta su progreso y vuelve rápidamente a tus lotes.</p>
+      <div id="dashboard-summary" aria-live="polite">
+        <p class="dash-empty">Preparando el resumen de tus lotes…</p>
+      </div>
     </div>
     <p>Vas a fermentar miel, agua y levadura. Suena sencillo — y lo es — pero cada decisión pequeña cambia el resultado. Esto no te promete un hidromiel perfecto a la primera. Te promete entender <b style="color:var(--cream)">por qué</b> pasa lo que pasa, para poder corregir en vez de improvisar a ciegas.</p>
     <p>El hidromiel es probablemente la bebida fermentada más antigua que existe. La química no ha cambiado desde los vikingos: es levadura comiéndose el azúcar de la miel y produciendo alcohol y CO₂. Lo que tiene fama de "exigente" es que la miel es pobre en los nutrientes que la levadura necesita — no es magia negra, es química con carencias, y se soluciona.</p>
@@ -354,7 +383,7 @@
 
     <div class="btn-row" style="margin:10px 0 16px">
       <button class="btn" id="btn-new-lote">+ Nuevo lote</button>
-      <button class="btn secondary" id="btn-export">Exportar JSON</button>
+      <button class="btn secondary" id="btn-export">Exportar copia completa</button>
       <label class="btn secondary" style="cursor:pointer">Importar JSON<input type="file" id="input-import" accept="application/json" style="display:none"></label>
     </div>
 
