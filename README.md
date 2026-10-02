@@ -58,6 +58,6 @@ Las ilustraciones genéricas (iconos, gotas) son propias, en SVG, para no depend
 - Importación validada y compatible con exportaciones antiguas en formato de array.
 - Estimación de ABV validada para evitar resultados absurdos con densidades inválidas.
 - Manifiesto de instalación e icono SVG añadidos para completar los recursos referenciados por la PWA.
-- Caché offline incrementada a `v3`.
+- Caché offline incrementada a `v4`.
 
 La aplicación continúa siendo local-first: los datos permanecen en el dispositivo y no se sincronizan automáticamente entre dispositivos.
