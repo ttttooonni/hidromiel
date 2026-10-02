@@ -297,7 +297,7 @@ nav.tabbar{background:#FFFFFFF2;backdrop-filter:blur(16px);-webkit-backdrop-filt
       <h2>Tu bodega, de un vistazo</h2>
       <p class="dashboard-intro">Controla tus elaboraciones, consulta su progreso y vuelve rápidamente a tus lotes.</p>
       <div id="dashboard-summary" aria-live="polite">
-        <p class="dash-empty">Preparando el resumen de tus lotes…</p>
+        <p class="dash-empty">Aún no tienes lotes. Crea el primero en Mis lotes</p>
       </div>
     </div>
     <p>Vas a fermentar miel, agua y levadura. Suena sencillo — y lo es — pero cada decisión pequeña cambia el resultado. Esto no te promete un hidromiel perfecto a la primera. Te promete entender <b style="color:var(--cream)">por qué</b> pasa lo que pasa, para poder corregir en vez de improvisar a ciegas.</p>
@@ -314,9 +314,10 @@ nav.tabbar{background:#FFFFFFF2;backdrop-filter:blur(16px);-webkit-backdrop-filt
   </section>
 
   <!-- TUTORIAL -->
-  <img class="section-art" src="./images/measurements.svg" alt="Ilustración de mediciones y control de fermentación" width="600" height="360" loading="lazy"><section class="view" id="view-tutorial">
-<img class="section-art" src="./images/recipes.svg" alt="Ilustración temática de elaboración de hidromiel" loading="lazy" decoding="async">
-<img class="section-art" src="./images/batches.svg" alt="Ilustración de recipientes de fermentación" loading="lazy" decoding="async">
+  <section class="view" id="view-tutorial">
+<img class="section-art" src="./images/measurements.svg" alt="Mediciones durante la elaboración" width="600" height="360" loading="lazy">
+
+
     <h1>Tutorial</h1>
 
     <h2>Qué necesitas</h2>
@@ -346,7 +347,7 @@ nav.tabbar{background:#FFFFFFF2;backdrop-filter:blur(16px);-webkit-backdrop-filt
     <h2>Paso a paso</h2>
     <details class="step" open>
       <summary><span class="num">1</span>Preparar la miel</summary>
-      <div class="body"><p>Si está cristalizada, licúala al baño María. Opcionalmente, calienta 5 min a 65,5 °C para eliminar restos no deseados — sin hervir a fondo, para no perder aroma.</p></div>
+      <div class="body"><p>Si está cristalizada, licúala al baño María. Calentar la miel es opcional y puede restarle aroma. Muchos elaboradores solo la disuelven en agua templada.</p></div>
     </details>
     <details class="step">
       <summary><span class="num">2</span>Mezclar y medir</summary>
@@ -362,11 +363,11 @@ nav.tabbar{background:#FFFFFFF2;backdrop-filter:blur(16px);-webkit-backdrop-filt
     </details>
     <details class="step">
       <summary><span class="num">5</span>Fermentación primaria</summary>
-      <div class="body"><p>2–4 semanas. Verás burbujeo y espuma — buena señal. Añade los nutrientes de forma escalonada, no todo de golpe. Temperatura estable, lejos de luz solar.</p><p style="font-size:.85rem"><b style="color:var(--honey)">Plan B:</b> si no hay actividad en 24–36 h, rehidrata levadura nueva y vuelve a inocular.</p></div>
+      <div class="body"><p>2–4 semanas. Verás burbujeo y espuma — buena señal. Añade los nutrientes de forma escalonada, no todo de golpe. Temperatura estable, lejos de luz solar.</p><p style="font-size:.85rem"><b style="color:var(--honey)">Plan B:</b> Si a las 24-36 h no ves actividad, no reinocules todavía: comprueba temperatura, cierre del airlock y densidad. Si la densidad no baja, revisa la rehidratación y la ficha de la levadura antes de volver a inocular.</p></div>
     </details>
     <details class="step">
       <summary><span class="num">6</span>Trasiego y clarificación</summary>
-      <div class="body"><p>4–12 semanas. Cuando el burbujeo se calma y la densidad no baja más, separa el líquido claro del sedimento. Repite si hace falta.</p></div>
+      <div class="body"><p>4–12 semanas. cuando la densidad se mantiene estable en varias lecturas separadas en el tiempo, separa el líquido claro del sedimento. Repite si hace falta.</p></div>
     </details>
     <details class="step">
       <summary><span class="num">7</span>Embotellado y maduración</summary>
@@ -382,7 +383,7 @@ nav.tabbar{background:#FFFFFFF2;backdrop-filter:blur(16px);-webkit-backdrop-filt
       <table>
         <tr><th>Cepa</th><th>Tolerancia OH</th><th>Temp.</th><th>Aporta</th></tr>
         <tr><td>Lalvin EC-1118</td><td>hasta 18%</td><td>10–30 °C</td><td>Neutra, muy resistente — ideal para arrancar fermentaciones difíciles o atascadas</td></tr>
-        <tr><td>Lalvin D-47</td><td>hasta 14–15%</td><td>15–20 °C</td><td>Floral y afrutada, notas cítricas — hidromiel seco y limpio</td></tr>
+        <tr><td>Lalvin D-47 (ICV-D47)</td><td>hasta 14–15%</td><td>15–20 °C</td><td>Floral y afrutada, notas cítricas — hidromiel seco y limpio</td></tr>
         <tr><td>Lalvin 71B</td><td>hasta 14%</td><td>18–30 °C</td><td>Suaviza la acidez, notas afrutadas — muy usada en melomel</td></tr>
         <tr><td>Lalvin K1-V1116</td><td>hasta 18%</td><td>10–35 °C</td><td>Versátil, aromas florales frescos, buena para arranques difíciles</td></tr>
         <tr><td>Lalvin QA23</td><td>hasta 16%</td><td>15–30 °C</td><td>Sabor limpio y afrutado, clarifica rápido</td></tr>
@@ -413,9 +414,10 @@ nav.tabbar{background:#FFFFFFF2;backdrop-filter:blur(16px);-webkit-backdrop-filt
   </section>
 
   <!-- RECETAS -->
-  <img class="section-art" src="./images/recipes.svg" alt="Ilustración de recetas de hidromiel" width="600" height="360" loading="lazy"><section class="view" id="view-recetas">
-<img class="section-art" src="./images/recipes.svg" alt="Ilustración temática de elaboración de hidromiel" loading="lazy" decoding="async">
-<img class="section-art" src="./images/recipes.svg" alt="Ilustración temática de elaboración de hidromiel" loading="lazy" decoding="async">
+  <section class="view" id="view-recetas">
+<img class="section-art" src="./images/recipes.svg" alt="Recetas de hidromiel" width="600" height="360" loading="lazy">
+
+
     <h1>Recetas</h1>
     <p>Elige una receta y pulsa <b style="color:var(--cream)">"Seguir este proceso"</b>: se crea un lote nuevo en <b style="color:var(--cream)">Mis lotes</b> con los 7 pasos de esa receta, para que puedas marcarlos e ir guardando tus propias fotos a medida que avanzas.</p>
     <div class="recipe-scaler">
@@ -427,9 +429,10 @@ nav.tabbar{background:#FFFFFFF2;backdrop-filter:blur(16px);-webkit-backdrop-filt
   </section>
 
   <!-- CONSEJOS -->
-  <img class="section-art" src="./images/tips.svg" alt="Ilustración de consejos para elaborar hidromiel" width="600" height="360" loading="lazy"><section class="view" id="view-consejos">
-<img class="section-art" src="./images/recipes.svg" alt="Ilustración temática de elaboración de hidromiel" loading="lazy" decoding="async">
-<img class="section-art" src="./images/recipes.svg" alt="Ilustración temática de elaboración de hidromiel" loading="lazy" decoding="async">
+  <section class="view" id="view-consejos">
+<img class="section-art" src="./images/tips.svg" alt="Consejos de elaboración" width="600" height="360" loading="lazy">
+
+
     <h1>Consejos y trucos</h1>
     <p class="lede">Una guía práctica para tomar mejores decisiones durante todo el lote. Mide, anota y cambia una variable cada vez.</p>
 
@@ -486,9 +489,10 @@ nav.tabbar{background:#FFFFFFF2;backdrop-filter:blur(16px);-webkit-backdrop-filt
   </section>
 
   <!-- MIS LOTES -->
-  <img class="section-art" src="./images/batches.svg" alt="Ilustración de seguimiento de lotes de hidromiel" width="600" height="360" loading="lazy"><section class="view" id="view-lotes">
-<img class="section-art" src="./images/recipes.svg" alt="Ilustración temática de elaboración de hidromiel" loading="lazy" decoding="async">
-<img class="section-art" src="./images/batches.svg" alt="Ilustración de recipientes de fermentación" loading="lazy" decoding="async">
+  <section class="view" id="view-lotes">
+<img class="section-art" src="./images/batches.svg" alt="Seguimiento de lotes" width="600" height="360" loading="lazy">
+
+
     <h1>Mis lotes</h1>
     <p>Cada lote guarda fecha, receta, densidades, pasos y tus fotos del proceso. El ABV se calcula solo cuando rellenas OG y SG.</p>
 
@@ -534,7 +538,7 @@ nav.tabbar{background:#FFFFFFF2;backdrop-filter:blur(16px);-webkit-backdrop-filt
         <label for="f-levadura">Levadura</label>
         <select id="f-levadura">
             <option value="">Selecciona una levadura</option>
-            <option>Lalvin EC-1118</option><option>Lalvin 71B</option><option>Lalvin K1-V1116</option><option>Lalvin QA23</option><option>Lalvin ICV-D47</option><option>SafMead Classic</option><option>SafMead Twist</option><option>SafAle US-05</option><option>Otra / no especificada</option>
+            <option>Lalvin EC-1118</option><option>Lalvin 71B</option><option>Lalvin K1-V1116</option><option>Lalvin QA23</option><option>Lalvin D-47</option><option>SafMead Classic</option><option>SafMead Twist</option><option>SafAle US-05</option><option>Otra / no especificada</option>
           </select>
           <p id="yeast-guidance" class="yeast-guidance">Consulta la ficha del fabricante para confirmar dosis, temperatura y tolerancia alcohólica.</p>
       </div>
