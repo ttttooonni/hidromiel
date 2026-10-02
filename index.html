@@ -213,6 +213,17 @@
   .measurement-latest{font-size:.78rem;color:var(--cream-dim);margin-top:7px;}
   .measurement-latest b{color:var(--honey-light);}
 
+
+  .measurement-modal{display:none;position:fixed;inset:0;z-index:1000;background:rgba(0,0,0,.72);padding:18px;align-items:center;justify-content:center;}
+  .measurement-modal.open{display:flex;}
+  .measurement-dialog{width:min(100%,480px);max-height:90vh;overflow:auto;background:var(--bg-card,#2a1e13);border:1px solid var(--line);border-radius:18px;padding:22px;box-shadow:0 18px 60px rgba(0,0,0,.4);}
+  .measurement-dialog h2{margin:0 0 5px;color:var(--cream);font-size:1.35rem;}
+  .measurement-dialog-head p{margin:0 0 18px;color:var(--cream-dim);font-size:.85rem;}
+  .measurement-dialog form{display:grid;gap:8px;}
+  .measurement-dialog label{font-size:.84rem;color:var(--cream-dim);margin-top:5px;}
+  .measurement-dialog input,.measurement-dialog textarea{width:100%;box-sizing:border-box;background:var(--bg-elevated-2);border:1px solid var(--line);border-radius:10px;padding:12px;color:var(--cream);font:inherit;}
+  .measurement-dialog-actions{display:flex;justify-content:flex-end;gap:10px;margin-top:12px;flex-wrap:wrap;}
+
   /* lightbox for photo preview */
   #lightbox{position:fixed;inset:0;background:rgba(0,0,0,.85);display:none;align-items:center;justify-content:center;z-index:50;padding:20px;}
   #lightbox.open{display:flex;}
@@ -499,6 +510,19 @@
     Mis lotes
   </button>
 </nav>
+
+<div class="measurement-modal" id="measurement-modal" aria-hidden="true">
+  <div class="measurement-dialog" role="dialog" aria-modal="true" aria-labelledby="measurement-title">
+    <div class="measurement-dialog-head"><h2 id="measurement-title">Registrar medición</h2><p>Guarda los datos de seguimiento de este lote.</p></div>
+    <form id="measurement-form">
+      <input type="hidden" id="measurement-lote-id">
+      <label for="measurement-density">Densidad medida</label><input type="number" id="measurement-density" min="0.800" max="1.300" step="0.001" placeholder="Ej. 1.025" required>
+      <label for="measurement-temperature">Temperatura (°C, opcional)</label><input type="number" id="measurement-temperature" min="-5" max="60" step="0.1" placeholder="Ej. 20">
+      <label for="measurement-note">Observaciones (opcional)</label><textarea id="measurement-note" rows="3" placeholder="Aspecto, aroma, actividad…"></textarea>
+      <div class="measurement-dialog-actions"><button type="button" class="btn secondary" id="measurement-cancel">Cancelar</button><button type="submit" class="btn">Guardar medición</button></div>
+    </form>
+  </div>
+</div>
 
 <div id="lightbox" onclick="this.classList.remove('open')"><img id="lightbox-img" src=""></div>
 
