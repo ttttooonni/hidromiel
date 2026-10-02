@@ -1,0 +1,19 @@
+{
+  "name": "Hidromiel — guía y cuaderno de lotes",
+  "short_name": "Hidromiel",
+  "description": "Guía de elaboración y cuaderno local para controlar lotes de hidromiel.",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#1B140D",
+  "theme_color": "#1B140D",
+  "lang": "es",
+  "icons": [
+    {
+      "src": "./icons/icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}
