@@ -49,3 +49,15 @@ Las ilustraciones genéricas (iconos, gotas) son propias, en SVG, para no depend
 ## Pendiente para próximas versiones
 
 - Si se quiere sincronizar entre dispositivos (datos y fotos), habría que añadir backend — de momento es intencionadamente local.
+
+
+## Hidromiel 2.0 — actualización inicial
+
+- Panel de inicio con resumen de lotes activos, pasos pendientes y elaboraciones recientes.
+- Copias de seguridad JSON que incluyen las fotografías almacenadas en IndexedDB.
+- Importación validada y compatible con exportaciones antiguas en formato de array.
+- Estimación de ABV validada para evitar resultados absurdos con densidades inválidas.
+- Manifiesto de instalación e icono SVG añadidos para completar los recursos referenciados por la PWA.
+- Caché offline incrementada a `v3`.
+
+La aplicación continúa siendo local-first: los datos permanecen en el dispositivo y no se sincronizan automáticamente entre dispositivos.
