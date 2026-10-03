@@ -901,8 +901,28 @@ function openForm(lote) {
   document.getElementById('f-sg').value = lote ? lote.sg : '';
   document.getElementById('f-estado').value = lote ? lote.estado : 'Fermentando';
   document.getElementById('f-notas').value = lote ? lote.notas : '';
+  updateABVPreview();
   form.scrollIntoView({ behavior: 'smooth', block: 'start' });
 }
+function updateABVPreview() {
+  const ogField = document.getElementById('f-og');
+  const sgField = document.getElementById('f-sg');
+  const preview = document.getElementById('abv-preview');
+  if (!ogField || !sgField || !preview) return;
+  const og = Number.parseFloat(String(ogField.value).replace(',', '.'));
+  const sg = Number.parseFloat(String(sgField.value).replace(',', '.'));
+  const abv = calcABV(og, sg);
+  if (ogField.value.trim() === '' || sgField.value.trim() === '') {
+    preview.textContent = 'Introduce OG y SG para estimar el alcohol.';
+  } else if (abv === null) {
+    preview.textContent = 'Revisa las densidades: OG debe ser mayor que SG y ambas deben ser válidas.';
+  } else {
+    preview.textContent = 'Alcohol estimado: ' + abv.toLocaleString('es-ES', {minimumFractionDigits:1, maximumFractionDigits:1}) + '% vol. (orientativo)';
+  }
+}
+document.getElementById('f-og')?.addEventListener('input', updateABVPreview);
+document.getElementById('f-sg')?.addEventListener('input', updateABVPreview);
+
 function closeForm() { form.style.display = 'none'; form.reset(); }
 btnNew.addEventListener('click', () => openForm(null));
 btnCancel.addEventListener('click', closeForm);
