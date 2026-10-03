@@ -314,6 +314,19 @@ nav.tabbar button{font-family:var(--sans);font-weight:500}
 @media(min-width:760px){.wrap{padding-top:30px}.hero{padding-bottom:28px}.hero-art{height:300px}}
 @media(prefers-reduced-motion:reduce){*,*::before,*::after{scroll-behavior:auto!important;transition:none!important;animation:none!important}}
 
+/* Formulario de lotes adaptable */
+.lote-form{background:#fff;border:1px solid #E8E0D0;border-radius:24px;padding:clamp(16px,3.5vw,26px);gap:18px;box-shadow:0 8px 28px rgba(42,48,31,.06);scroll-margin-top:16px}
+.lote-form>div,.lote-form .row2>div{min-width:0}
+.lote-form label{font-size:.88rem;font-weight:650;color:#62675D;margin-bottom:7px}
+.lote-form input,.lote-form select,.lote-form textarea{min-width:0;min-height:50px;padding:12px 14px;background:#FBFAF7;border:1px solid #DCD8CC;border-radius:15px;color:#292D25;font:400 1rem var(--sans);width:100%;max-width:100%}
+.lote-form input:focus,.lote-form select:focus,.lote-form textarea:focus{outline:none;border-color:#9B8A53;box-shadow:0 0 0 3px rgba(212,160,23,.16)}
+.lote-form .row2{grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}
+.lote-form .btn-row{display:flex;flex-wrap:wrap;gap:10px}.lote-form .btn-row .btn{flex:1 1 150px;min-height:48px}
+#yeast-guidance{margin:8px 0 0;color:#62675D;font-size:.88rem;line-height:1.55}
+.abv-preview{margin:-7px 0 0;padding:11px 13px;border-radius:12px;background:#F0F3E9;color:#405222;font-size:.9rem;font-weight:600}
+@media(max-width:420px){.lote-form{padding:15px;border-radius:19px;gap:15px}.lote-form .row2{gap:10px}.lote-form label{font-size:.8rem;line-height:1.35}.lote-form input,.lote-form select,.lote-form textarea{padding:11px 10px;min-height:47px;font-size:16px}.lote-form .btn-row .btn{flex-basis:100%}}
+@media(min-width:760px){#view-lotes .lote-form{grid-template-columns:repeat(2,minmax(0,1fr));align-items:start}#view-lotes .lote-form>input[type=hidden]{display:none}#view-lotes .lote-form>div:first-of-type,#view-lotes .lote-form>div:nth-of-type(4),#view-lotes .lote-form>div:nth-of-type(7),#view-lotes .lote-form>div:nth-of-type(8),#view-lotes .lote-form .btn-row,#view-lotes .lote-form .abv-preview{grid-column:1/-1}#view-lotes .lote-form .row2{grid-template-columns:repeat(2,minmax(0,1fr))}}
+
 </style>
 </head>
 <body>
@@ -578,16 +591,17 @@ nav.tabbar button{font-family:var(--sans);font-weight:500}
           </select>
           <p id="yeast-guidance" class="yeast-guidance">Consulta la ficha del fabricante para confirmar dosis, temperatura y tolerancia alcohólica.</p>
       </div>
-      <div class="row2">
+      <div class="row2 density-row">
         <div>
           <label for="f-og">Densidad inicial (OG)</label>
           <input type="number" step="0.001" id="f-og" placeholder="1.075">
         </div>
         <div>
           <label for="f-sg">Densidad final (SG)</label>
-          <input type="number" step="0.001" id="f-sg" placeholder="0.995">
+          <input type="number" step="0.001" id="f-sg" placeholder="0.995" inputmode="decimal">
         </div>
       </div>
+      <p id="abv-preview" class="abv-preview" aria-live="polite">Introduce OG y SG para estimar el alcohol.</p>
       <div>
         <label for="f-estado">Estado</label>
         <select id="f-estado">
